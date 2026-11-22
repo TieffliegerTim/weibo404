@@ -252,6 +252,9 @@ async function getModel(){
  aiBusy=(async()=>{
   try{
    const m=await import("https://www.gstatic.com/firebasejs/12.0.0/firebase-ai.js");
+   const key=new URLSearchParams(location.search).get("k")||store.get("w404k");
+   if(key){store.set("w404k",key);if(location.search.includes("k="))history.replaceState(null,"",location.pathname+"?beamer");self.FIREBASE_APPCHECK_DEBUG_TOKEN=key;const ac=await import("https://www.gstatic.com/firebasejs/12.0.0/firebase-app-check.js");ac.initializeAppCheck(app,{provider:new ac.ReCaptchaV3Provider("debug-only"),isTokenAutoRefreshEnabled:true})}
+   else console.warn("[w404] no App Check key – open ?beamer&k=KEY once");
    const ai=m.getAI(app,{backend:new m.GoogleAIBackend()});
    const list=[...MODELS];
    for(let i=0;i<list.length&&i<8;i++){const name=list[i];
