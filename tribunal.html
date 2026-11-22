@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d0b0a">
+<title>Tribunal 404</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;700;800&family=Noto+Sans+SC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0b0a;--ink:#f3efe8;--mute:#9c958c;--line:#2b2724;--red:#C62828;--red2:#ff4d4d;--gold:#D4AF37;--blue:#4C8DFF;--paper:#f6f1e7}
+*{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:16px/1.45 Inter,system-ui,sans-serif;overflow-x:clip}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.zh{font-family:"Noto Sans SC",sans-serif;font-weight:900}
+.red{color:var(--red2)}.mute{color:var(--mute)}
+h1{font-family:"Archivo Black";font-size:32px;line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:"Archivo Black";font-size:24px;line-height:1.1;margin:0}
+h3{margin:0}
+p{margin:0}
+.ph{max-width:520px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding:max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom))}
+.bar{display:flex;align-items:center;gap:10px;padding:2px 2px 10px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800}
+.logo i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:2px solid var(--red);color:var(--red2);font-style:normal;font-family:"Noto Sans SC";font-weight:900;font-size:15px}
+.bar .sp{flex:1}
+.pill{font-size:13px;padding:5px 10px;border-radius:99px;background:#1c1918;border:1px solid var(--line);white-space:nowrap}
+.pill.hot{background:var(--red);border-color:var(--red);color:#fff}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:10px 4px}
+.gavel{width:92px;height:92px;border-radius:50%;border:4px solid var(--red);display:grid;place-items:center;font-family:"Noto Sans SC";font-weight:900;font-size:44px;color:var(--red2);transform:rotate(-8deg)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;color:var(--mute)}
+.inp{width:100%;height:50px;border-radius:14px;border:1px solid var(--line);background:#141211;padding:0 14px;font-size:16px;outline:none}
+textarea.inp{height:auto;min-height:92px;padding:12px 14px;resize:vertical;line-height:1.4}
+.inp:focus{border-color:var(--gold)}
+.btn{height:54px;border-radius:16px;background:var(--red);color:#fff;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;width:100%}
+.btn:active{transform:scale(.98)}
+.note{font-size:13px;color:var(--mute)}
+.wait{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;flex:1;justify-content:center}
+.tool{display:flex;flex-direction:column;gap:12px}
+.role{border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.role.pros{background:linear-gradient(160deg,#3d0e0e,#170808);border:1px solid #6b1d1d}
+.role.def{background:linear-gradient(160deg,#0f2446,#08121f);border:1px solid #1d3f6b}
+.role.jury{background:linear-gradient(160deg,#30270f,#141009);border:1px solid #5c4c1d}
+.rh{display:flex;align-items:baseline;gap:12px}
+.rh .zh{font-size:30px}
+.rh h2{font-size:28px}
+.hint{background:#ffffff12;border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.4}
+.hl{font-size:12px;color:#ffffffa0;font-weight:700;margin-top:4px}
+.secret{background:#000;border:2px dashed var(--red2);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+details.rc{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:#121010}
+details.rc summary{cursor:pointer;font-weight:700;font-size:14px}
+details.rc[open] summary{margin-bottom:10px}
+.arg{display:flex;gap:10px;align-items:flex-start;background:#161312;border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.arg p{flex:1;font-size:15px;line-height:1.4;overflow-wrap:anywhere}
+.up{flex:none;min-width:58px;height:44px;border-radius:12px;border:1px solid var(--line);background:#201c1a;font-weight:800}
+.up.on{background:var(--gold);color:#111;border-color:var(--gold)}
+.mine{flex:none;font-size:12px;color:var(--mute);padding-top:4px}
+.speak{background:var(--red);color:#fff;border-radius:14px;padding:12px 14px;font-weight:800;font-size:17px;display:flex;justify-content:space-between;gap:10px}
+.vbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vb{height:84px;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:17px;border:2px solid var(--line);background:#161312}
+.vb .zh{font-size:24px}
+.vb.g.on{background:var(--red);border-color:var(--red);color:#fff}
+.vb.n.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.dcol{display:flex;flex-direction:column;gap:8px}
+.dpt{border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.4;display:flex;gap:10px}
+.dpt b{font-family:"Archivo Black";flex:none}
+.dpt.pros{background:#2a0d0d}.dpt.def{background:#0d1d33}
+.gl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gb{min-height:52px;border-radius:12px;border:2px solid var(--line);background:#161312;font-weight:700;padding:6px 10px}
+.gb.on{border-color:var(--gold);background:var(--gold);color:#111}
+.res{border-radius:14px;background:#161312;border:1px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.bm{min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto;background:radial-gradient(1100px 650px at 85% -10%,#2b0c0c 0%,transparent 60%),var(--bg)}
+.bm header{display:flex;align-items:center;gap:18px;padding:22px 36px 0}
+.bm header .logo{font-size:20px}.bm header .logo i{width:42px;height:42px;font-size:19px}
+.bm header .sp{flex:1}
+.prog{font-size:16px;color:var(--mute);font-weight:700}
+.stage{padding:20px 36px;display:grid;gap:32px;align-content:center}
+.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+.lob{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center}
+.hero1{font-size:clamp(60px,7.5vw,128px);line-height:.92;margin:8px 0 0}
+.sub{font-size:22px;color:#d5cec5;max-width:36ch;margin-top:18px}
+.k{font-size:15px;color:var(--mute);font-weight:700}
+.qrbox{background:#fff;border-radius:28px;padding:26px;display:flex;flex-direction:column;align-items:center;gap:14px;color:#111;justify-self:center;box-shadow:0 30px 80px #c6282833}
+#qr canvas,#qr img{width:min(34vh,380px)!important;height:auto!important}
+.qrbox .url{font-weight:800;font-size:18px;text-align:center;overflow-wrap:anywhere;max-width:380px}
+.rc3{display:flex;gap:22px;align-items:baseline;margin-top:28px;flex-wrap:wrap;font-size:18px}
+.count{font-family:"Archivo Black";font-size:60px;line-height:1}
+.loaders{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.exhibit{border-radius:20px;overflow:hidden;background:#1a1716;display:grid;place-items:center;min-height:56vh}
+.exhibit img{max-width:100%;max-height:66vh;display:block}
+.exhibit.sm{min-height:0;max-height:36vh}
+.exhibit.sm img{max-height:36vh}
+.ph0{display:flex;flex-direction:column;gap:12px;padding:36px;text-align:center;align-items:center}
+.ph0 .zh{font-size:28px;color:var(--gold)}
+.ph0 b{font-family:"Archivo Black";font-size:34px;line-height:1.1}
+.ph0 p{font-size:19px;color:#cfc8bf;max-width:40ch}
+.indict{background:var(--paper);color:#1b1b1b;border-radius:20px;padding:30px 32px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px #0008;position:relative}
+.indict h2{font-size:34px}
+.indict .chg{border-top:1px solid #d8cfc0;padding-top:12px}
+.indict .chg b{display:block;font-size:19px}
+.indict .chg span{font-size:17px;color:#4b443d}
+.seal{position:absolute;right:24px;top:20px;width:96px;height:96px;border-radius:50%;border:5px solid var(--red);color:var(--red);display:grid;place-items:center;font-family:"Noto Sans SC";font-weight:900;font-size:24px;transform:rotate(-10deg);text-align:center;line-height:1.1}
+.bigtime{font-family:"Archivo Black";font-size:clamp(100px,13vw,220px);line-height:.9;font-variant-numeric:tabular-nums}
+.bigtime.low{color:var(--red2)}
+.tally{display:flex;gap:28px;flex-wrap:wrap}
+.tally div{display:flex;flex-direction:column;gap:4px}
+.tally .count{font-size:72px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.side{display:flex;flex-direction:column;gap:12px}
+.side h3{font-family:"Archivo Black";font-size:28px}
+.pt{border-radius:16px;padding:16px 18px;display:flex;gap:16px;align-items:flex-start;font-size:21px;line-height:1.35}
+.pt.pros{background:#2a0d0d;border:1px solid #5a1818}.pt.def{background:#0d1d33;border:1px solid #1d3f6b}
+.pt .sc{font-family:"Archivo Black";font-size:30px;min-width:64px;line-height:1}
+.clerk{font-size:20px;color:#d5cec5;border-left:4px solid var(--gold);padding-left:16px}
+.speaker{font-family:"Archivo Black";font-size:clamp(60px,7.5vw,128px);line-height:.95}
+.speaker.pros{color:var(--red2)}.speaker.def{color:var(--blue)}.speaker.q{color:var(--gold)}
+.qbig{font-size:36px;line-height:1.3;font-weight:700;max-width:40ch}
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chipv{padding:12px 18px;border-radius:14px;font-size:22px;font-weight:800;background:#1d1a18;border:2px solid var(--line)}
+.chipv.g{background:var(--red);border-color:var(--red);color:#fff}
+.chipv.n{background:var(--blue);border-color:var(--blue);color:#fff}
+.stat{font-family:"Archivo Black";font-size:110px;line-height:.9}
+.vcard{background:#151210;border:1px solid var(--line);border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:12px}
+.vcard .vv{font-family:"Archivo Black";font-size:48px;line-height:1}
+.vcard .vv.g{color:var(--red2)}.vcard .vv.n{color:var(--blue)}
+.vcard p{font-size:20px;line-height:1.4;color:#e4ddd4}
+.reality{font-size:19px;line-height:1.4;color:#e4ddd4;border-left:4px solid var(--red);padding-left:16px}
+.src{font-size:14px;color:var(--mute)}
+.hammer{background:linear-gradient(160deg,#30270f,#141009);border:1px solid #5c4c1d;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.hammer q{font-size:24px;line-height:1.35;font-weight:700}
+.ctrl{display:flex;gap:10px;align-items:center;padding:12px 36px 18px;flex-wrap:wrap;opacity:.4;transition:opacity .2s}
+.ctrl:hover,.ctrl:focus-within{opacity:1}
+.cb{height:40px;padding:0 14px;border-radius:10px;background:#1d1a18;border:1px solid var(--line);font-weight:700;font-size:14px;display:inline-flex;align-items:center}
+.cb.p{background:var(--red);border-color:var(--red);color:#fff}
+.ctrl .sp{flex:1}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;border:1px solid var(--line);padding:10px 16px;border-radius:12px;font-size:14px;z-index:9}
+@media (max-width:900px){.stage,.two,.lob,.cols{grid-template-columns:1fr!important}.bm header,.stage,.ctrl{padding-left:16px;padding-right:16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><div class="ph"><div class="wait"><div class="gavel">审</div><p class="mute">Connecting to the court…</p></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {getDatabase,ref,onValue,set,update,push} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+
+const app=initializeApp({apiKey:"AIzaSyA3GseZ9QJ0X4r2L0phJqh-NCZZI-HrHPA",authDomain:"weibo404.firebaseapp.com",databaseURL:"https://weibo404-default-rtdb.europe-west1.firebasedatabase.app",projectId:"weibo404",storageBucket:"weibo404.firebasestorage.app",messagingSenderId:"571494018319",appId:"1:571494018319:web:17df34d7025ff75d44627a"});
+const db=getDatabase(app);
+const ROOM="rooms/tribunal", R=p=>ref(db,ROOM+(p?"/"+p:""));
+const HOST=new URLSearchParams(location.search).has("beamer");
+const T_ARGS=240,T_PLEA=90,T_Q=40;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
+let cid=store.get("trb_cid"); if(!cid){cid="t"+Math.random().toString(36).slice(2,10);store.set("trb_cid",cid)}
+let S={}, off=0, view="";
+const now=()=>Date.now()+off;
+onValue(ref(db,".info/serverTimeOffset"),s=>off=s.val()||0);
+const toast=t=>{const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.append(d);setTimeout(()=>d.remove(),2600)};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const tmo=(p,ms)=>Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error("timeout")),ms))]);
+const fmt=ms=>{ms=Math.max(0,ms);const s=Math.ceil(ms/1000);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+function mount(key,html,bind){ if(view===key) return false; view=key; $("#app").innerHTML=html; bind&&bind(); return true; }
+
+const CASES=[
+ {title:"The People vs. Badiucao",work:"“Xi nursing Putin” (2022)",desc:"A digital painting in the style of a Christian Madonna: Xi Jinping holds and breast-feeds Vladimir Putin like an infant.",
+  charges:[["Art. 105 (2) PRC Criminal Law","Inciting subversion of state power “by spreading rumours or slanders or any other means” – up to 5 years, more if “grave”."],["Art. 293 PRC Criminal Law","Picking quarrels and provoking trouble – used against online speech since 2013."]],
+  pros:["It humiliates the head of state – mocking the leader is an attack on the whole nation.","It distorts China's neutral position on the Ukraine crisis and spreads the rumour that China feeds Russia's war.","Satire is never innocent: images like this are shared to stir people up and are used by foreign forces to smear China."],
+  def:["It is a picture, not an act: no violence, no call to action, nobody harmed.","It comments on public facts: during the war China became Russia's most important trading partner.","A confident state can tolerate a cartoon – punishing it proves the artist's point."],
+  jury:["Ask the prosecution: who exactly was harmed by this picture?","Ask the defence: is an artist living abroad responsible for consequences inside China?","Judge the arguments, not the volume."],
+  reality:"In reality Badiucao lives in Australia. In November 2018 his first solo show in Hong Kong was cancelled one day before opening after threats from Chinese authorities; he says police visited his family in China and questioned a relative for hours.",
+  src:"RSF (2018); Reuters (2018); The Intercept (2019)"},
+ {title:"Appeal: The People vs. Ai Weiwei",work:"Ai Weiwei's work on the war in Ukraine",desc:"The work from our presentation: it shows the suffering caused by the war – without naming a culprit.",
+  charges:[["Art. 293 PRC Criminal Law","Picking quarrels and provoking trouble – “disrupting public order”, also online."]],
+  pros:["The artist has a record: in 2011 he was detained for 81 days. He has worked against China from abroad for years.","By showing only suffering he hides his real target: China's partner Russia.","Western museums use him as a tool to smear China."],
+  def:["The work names no one. Since when is compassion a crime?","Showing suffering is a universal human message – it cannot ‘subvert’ anything.","If even this is punished, art itself becomes the crime."],
+  jury:["Is art that blames no one less dangerous – or more?","Ask: what exactly is the ‘trouble’ this work provokes?","Compare it with the first case."],
+  reality:"In reality Ai Weiwei was detained for 81 days in 2011 without formal charges and left China in 2015; he now lives in Europe.",
+  src:"BBC; The Guardian"}
+];
+const ROLES={pros:{n:"Prosecution",zh:"检察院",m:"Get a conviction. Argue as the state would: stability, the dignity of the leader, foreign interference.",h:"Argument ideas"},
+ def:{n:"Defence",zh:"辩护人",m:"Get an acquittal. Argue for the artist: satire, facts, freedom of art.",h:"Argument ideas"},
+ jury:{n:"Jury",zh:"陪审员",m:"Listen, send sharp questions, then decide. You vote twice: once in public, once in secret.",h:"Question ideas"}};
+const cs=()=>(S.state||{}).case||0;
+const me=()=>(S.players||{})[cid];
+const argsOf=c=>Object.entries((S.args||{})[c]||{}).map(([id,a])=>({id,...a,n:Object.keys(((S.up||{})[c]||{})[id]||{}).length}));
+const dos=c=>(S.dossier||{})[c];
+const tally=(path,c)=>{const v=Object.values((S[path]||{})[c]||{});const g=v.filter(x=>x===1).length;return {n:v.length,g,p:v.length?Math.round(g/v.length*100):0}};
+const nameOf=id=>((S.players||{})[id]||{}).name||"someone";
+
+let aiModel=null, aiBusy=null, aiStatus="AI clerk connecting…";
+const MODELS=["gemini-flash-lite-latest","gemini-flash-latest","gemini-3.8-flash","gemini-2.5-flash-lite"];
+const setAiSt=t=>{aiStatus=t;const e=document.getElementById("aist");if(e)e.textContent=t};
+async function getModel(){
+ if(aiModel) return aiModel;
+ if(aiBusy) return aiBusy;
+ aiBusy=(async()=>{
+  try{
+   const m=await import("https://www.gstatic.com/firebasejs/12.0.0/firebase-ai.js");
+   const key=new URLSearchParams(location.search).get("k")||store.get("w404k");
+   if(key){store.set("w404k",key);if(location.search.includes("k="))history.replaceState(null,"",location.pathname+"?beamer");self.FIREBASE_APPCHECK_DEBUG_TOKEN=key;const ac=await import("https://www.gstatic.com/firebasejs/12.0.0/firebase-app-check.js");ac.initializeAppCheck(app,{provider:new ac.ReCaptchaV3Provider("debug-only"),isTokenAutoRefreshEnabled:true})}
+   const ai=m.getAI(app,{backend:new m.GoogleAIBackend()});
+   for(const name of MODELS){
+    try{const md=m.getGenerativeModel(ai,{model:name,generationConfig:{responseMimeType:"application/json",temperature:.3}});
+     await tmo(md.generateContent('Reply with {"ok":true}'),25000); md._n=name; aiModel=md; setAiSt("AI clerk online · "+name); return md;
+    }catch(e){console.warn("[trb] model failed",name,e.message)}
+   }
+  }catch(e){console.warn("[trb] AI SDK failed",e)}
+  setAiSt("AI clerk offline · fallback mode"); setTimeout(()=>{aiBusy=null},30000); return null;
+ })();
+ return aiBusy;
+}
+async function aiJSON(prompt){
+ const md=await getModel(); if(!md) return null;
+ for(let k=0;k<3;k++){
+  try{const r=await tmo(md.generateContent(prompt),45000);return JSON.parse(r.response.text().trim().replace(/^```(json)?|```$/g,""))}
+  catch(e){console.warn("[trb] ai",e.message);if(/429|quota|exhaust|timeout|503/i.test(e.message))await sleep(5000*(k+1));else return null}
+ }
+ return null;
+}
+async function makeDossier(c){
+ const K=CASES[c],A=argsOf(c);
+ const list=A.map(a=>`${a.side==="pros"?"P":"D"} [${a.id}] (+${a.n}): ${a.text.replace(/\s+/g," ")}`).join("\n")||"(no arguments were filed)";
+ let j=await aiJSON(`You are the court clerk in a classroom role-play trial (university seminar on art and censorship in China). Students were randomly assigned to argue for the prosecution (P) or the defence (D); these are roles, not their opinions.
+Case: ${K.title}. Artwork: ${K.work} – ${K.desc}
+Charges: ${K.charges.map(x=>x[0]+": "+x[1]).join(" | ")}
+Tasks:
+1) For each side, merge the students' arguments into the 3 strongest distinct points. Rewrite each in max 22 words and keep the students' ideas. Only if a side filed fewer than 3 arguments, add your own point and start it with "(clerk)". Score each point 1-10 for persuasiveness in front of a neutral jury.
+2) Pick the single best original argument by its id and explain why in max 15 words.
+3) Say which side argued more convincingly, in max 25 words.
+Reply with JSON only: {"pros":[{"t":"...","s":7}],"def":[{"t":"...","s":6}],"best":{"id":"...","why":"..."},"edge":"pros" or "def" or "even","note":"..."}
+ARGUMENTS:
+${list}`);
+ const fb=side=>A.filter(a=>a.side===side).sort((x,y)=>y.n-x.n).slice(0,3).map(a=>({t:a.text,s:null}));
+ if(!j||!Array.isArray(j.pros)||!Array.isArray(j.def)){const b=[...A].sort((x,y)=>y.n-x.n)[0];j={pros:fb("pros"),def:fb("def"),best:b?{id:b.id,why:"most upvoted by the team"}:null,edge:"even",note:"",src:"team votes (AI offline)"}}
+ else j.src="AI clerk · "+(aiModel?._n||"");
+ const cl=L=>(L||[]).slice(0,3).map(x=>({t:String(x.t||"").slice(0,220),s:x.s==null?null:Math.max(1,Math.min(10,Math.round(+x.s)||5))}));
+ j.pros=cl(j.pros);j.def=cl(j.def);
+ if(j.best&&!A.find(a=>a.id===j.best.id))j.best=null;
+ if(j.best){const a=A.find(x=>x.id===j.best.id);j.best={id:a.id,why:String(j.best.why||"").slice(0,120),text:a.text,cid:a.cid,side:a.side}}
+ j.edge=["pros","def","even"].includes(j.edge)?j.edge:"even";j.note=String(j.note||"").slice(0,200);
+ await set(R(`dossier/${c}`),j);
+}
+async function pickQ(c){
+ const K=CASES[c],Q=Object.entries((S.qs||{})[c]||{}).map(([id,q])=>({id,...q}));
+ if(!Q.length){await set(R(`q/${c}`),{text:"The judge asks both sides: Who exactly was harmed by this artwork?",to:"both",judge:true});return}
+ const j=await aiJSON(`Classroom role-play trial: ${K.title}. Pick the single best jury question: sharp, fair and answerable in 30 seconds. Questions:\n${Q.map(q=>`[${q.id}] ${q.text}`).join("\n")}\nReply with JSON only: {"id":"...","to":"prosecution" or "defence" or "both"}`);
+ const q=Q.find(x=>x.id===j?.id)||Q[Q.length-1];
+ await set(R(`q/${c}`),{text:q.text,to:j?.to||"both",cid:q.cid});
+}
+async function makeVerdict(c){
+ const K=CASES[c],d=dos(c)||{},o=tally("vopen",c),s=tally("vsecret",c);
+ let j=await aiJSON(`You are the presiding judge in a classroom role-play trial (university seminar on art and censorship in China). Be realistic, factual and sober.
+Case: ${K.title}. Artwork: ${K.work} – ${K.desc}
+Charges: ${K.charges.map(x=>x[0]+": "+x[1]).join(" | ")}
+Strongest prosecution points: ${(d.pros||[]).map(x=>x.t).join(" | ")||"none"}
+Strongest defence points: ${(d.def||[]).map(x=>x.t).join(" | ")||"none"}
+Class jury: open vote ${o.p}% guilty (${o.n} votes), secret ballot ${s.p}% guilty (${s.n} votes).
+Give two realistic verdicts:
+"cn": a court of the People's Republic of China under Xi Jinping. Consider that Chinese courts convict in well over 99% of criminal cases and that political speech cases under Art. 105 usually end in prison terms. The artist lives abroad, so also say what would realistically happen instead (for example pressure on family in China, entry ban, total censorship of the work).
+"ch": a Swiss court under the Federal Constitution (Art. 16 freedom of expression, Art. 21 freedom of art) and Swiss criminal law.
+Reply with JSON only: {"cn":{"v":"Guilty" or "Not guilty","sentence":"max 12 words","reason":"max 45 words"},"ch":{"v":"Guilty" or "Not guilty","sentence":"max 8 words","reason":"max 35 words"}}`);
+ if(!j||!j.cn||!j.ch) j={cn:{v:"Guilty",sentence:"Several years in prison (Art. 105: up to 5, more if “grave”)",reason:"Mocking the leader and China's partnership with Russia is treated as rumour and slander endangering state power. Acquittals in such cases are practically unheard of."},ch:{v:"Not guilty",sentence:"No offence",reason:"Political satire about public figures is protected by freedom of expression (Art. 16) and freedom of art (Art. 21 of the Federal Constitution)."},src:"fallback (AI offline)"};
+ else j.src="AI judge · "+(aiModel?._n||"");
+ await set(R(`verdict/${c}`),j);
+}
+let assigning=false;
+function assignRoles(){
+ const P=S.players||{};const ids=Object.keys(P).filter(id=>!P[id].role).sort((a,b)=>P[a].t-P[b].t);
+ if(!ids.length||assigning)return;assigning=true;
+ const cnt={pros:0,def:0,jury:0};Object.values(P).forEach(p=>p.role&&cnt[p.role]++);const tgt={pros:.3,def:.3,jury:.4};const upd={};
+ ids.forEach(id=>{const r=Object.keys(tgt).sort((a,b)=>(cnt[a]+1)/tgt[a]-(cnt[b]+1)/tgt[b])[0];cnt[r]++;upd[`players/${id}/role`]=r});
+ update(R(),upd).finally(()=>{assigning=false});
+}
+function assignInformants(){
+ const P=S.players||{};if(Object.values(P).some(p=>p.inf))return;
+ const J=Object.keys(P).filter(id=>P[id].role==="jury").sort(()=>Math.random()-.5);const n=J.length>=8?2:J.length>=3?1:0;
+ const upd={};J.slice(0,n).forEach(id=>upd[`players/${id}/inf`]=true);if(n)update(R(),upd);
+}
+const busyH=new Set();
+function hostEffects(){
+ const st=S.state||{},c=st.case||0;assignRoles();
+ const once=(k,fn)=>{if(busyH.has(k))return;busyH.add(k);fn().catch(e=>{console.warn(e);busyH.delete(k)})};
+ if(st.phase==="dossier"&&!dos(c))once("d"+c,()=>makeDossier(c));
+ if(st.phase==="plea"&&st.sub==="q"&&!(S.q||{})[c])once("q"+c,()=>pickQ(c));
+ if(st.phase==="verdict"&&!(S.verdict||{})[c])once("v"+c,()=>makeVerdict(c));
+}
+
+function roleCard(p,K){
+ const r=ROLES[p.role];
+ return `<div class="role ${p.role}"><span class="note">Your role, drawn by lot</span><div class="rh"><span class="zh">${r.zh}</span><h2>${r.n}</h2></div><p>${r.m}</p><span class="hl">${r.h}</span>${K[p.role].map(h=>`<div class="hint">${esc(h)}</div>`).join("")}</div>${p.inf?`<div class="secret"><b class="red">SECRET ROLE · Informant 线人</b><p>You secretly work for State Security. Steer the jury towards “guilty” without being discovered: ask leading questions, vote “guilty” in the open vote, look neutral. Tell no one.</p></div>`:""}`;
+}
+function dossierHTML(c,only){
+ const d=dos(c);if(!d)return `<div class="res"><span class="mute">The clerk is reading the files…</span></div>`;
+ const col=side=>`<div class="dcol"><b>${side==="pros"?"Prosecution":"Defence"}</b>${(d[side]||[]).map(x=>`<div class="dpt ${side}">${x.s!=null?`<b>${x.s}</b>`:""}<span>${esc(x.t)}</span></div>`).join("")||`<span class="mute">no arguments</span>`}</div>`;
+ return only&&only!=="jury"?col(only):col("pros")+col("def");
+}
+function renderPhone(){
+ const st=S.state||{phase:"lobby"},p=me(),c=cs(),K=CASES[c],ph=st.phase;
+ if(!p) return mount("join",joinHTML(),bindJoin);
+ const top=r=>`<div class="bar"><div class="logo"><i>审</i>Tribunal&nbsp;404</div><div class="sp"></div>${r||`<span class="pill">${esc(p.name)}</span>`}</div>`;
+ if(ph==="lobby"||!p.role) return mount("lobby",`<div class="ph">${top()}<div class="wait"><div class="gavel">审</div><h2>You're in court.</h2><p class="mute">Your role is drawn by lot and revealed when the trial opens.</p></div></div>`);
+ const rc=`<details class="rc"><summary>My role card</summary>${roleCard(p,K)}</details>`;
+ const timerPill=`<span class="pill hot timer" data-end="1">--:--</span>`;
+ if(ph==="charge") return mount("charge"+c,`<div class="ph">${top(`<span class="pill hot">Case ${c+1}</span>`)}<div class="tool"><p class="note">${esc(K.title)} · ${esc(K.work)}</p>${roleCard(p,K)}<p class="note">Keep your role to yourself. You argue your role – not your own opinion.</p></div></div>`);
+ if(ph==="args"||ph==="plea"){
+  const speak=ph==="plea"?`<div class="speak"><span>${st.sub==="q"?"Jury question – answer":(st.sub==="pros"?"Prosecution pleads":"Defence pleads")}</span><span class="timer" data-end="1">--:--</span></div>`:"";
+  if(p.role==="jury"){mount("jq"+ph+c+(st.sub||""),`<div class="ph">${top(timerPill)}<div class="tool">${speak}<p class="note">You are on the jury. Send sharp questions – the court picks the best one for the parties.</p><textarea id="ta" class="inp" maxlength="160" placeholder="Your question to the prosecution or the defence…"></textarea><button class="btn" id="post">Send question</button><div id="list" class="tool"></div>${rc}</div></div>`,bindQ);return listQ()}
+  if(ph==="plea") return mount("pl"+c+st.sub+(dos(c)?1:0),`<div class="ph">${top(timerPill)}<div class="tool">${speak}<p class="note">Your side's strongest points (speaker notes):</p>${dossierHTML(c,p.role)}${rc}</div></div>`);
+  mount("ar"+c+p.role,`<div class="ph">${top(timerPill)}<div class="tool"><p class="note"><b>${ROLES[p.role].n}:</b> file the strongest argument for your side. Short and sharp – max. 3 per person.</p><textarea id="ta" class="inp" maxlength="220" placeholder="${p.role==="pros"?"Why must the artist be convicted?":"Why must the artist be acquitted?"}"></textarea><button class="btn" id="post">File argument</button><p class="note">Your team's arguments – vote for the strongest:</p><div id="list" class="tool"></div>${rc}</div></div>`,bindArgs);
+  return listArgs();
+ }
+ if(ph==="dossier") return mount("do"+c+(dos(c)?1:0),`<div class="ph">${top()}<div class="tool"><h2>The court file</h2><p class="note">The clerk merged all arguments into the strongest points (score 1–10).</p>${dossierHTML(c)}${rc}</div></div>`);
+ if(ph==="vopen"){
+  if(p.role!=="jury") return mount("vo-x"+c,`<div class="ph">${top()}<div class="wait"><div class="gavel">审</div><h2>The jury votes in public.</h2><p class="mute">Watch the screen. Your turn comes next – in secret.</p></div></div>`);
+  mount("vo"+c,`<div class="ph">${top()}<div class="tool"><h2>Open vote</h2><p class="mute">Your name and your vote appear on the screen for everyone to see.</p><div class="vbtns"><button class="vb g" data-v="1"><span class="zh">有罪</span>Guilty</button><button class="vb n" data-v="0"><span class="zh">无罪</span>Not guilty</button></div>${rc}</div></div>`,()=>bindVote("vopen"));
+  return markVote("vopen");
+ }
+ if(ph==="vsecret"){
+  mount("vs"+c,`<div class="ph">${top()}<div class="tool"><h2>Secret ballot</h2><p class="mute">Forget your role. Vote as yourself – anonymous. Nobody sees what you choose, not even the court.</p><div class="vbtns"><button class="vb g" data-v="1"><span class="zh">有罪</span>Guilty</button><button class="vb n" data-v="0"><span class="zh">无罪</span>Not guilty</button></div></div></div>`,()=>bindVote("vsecret"));
+  return markVote("vsecret");
+ }
+ if(ph==="verdict"){
+  const v=(S.verdict||{})[c],o=tally("vopen",c),s=tally("vsecret",c);
+  return mount("vd"+c+(st.rev?"r":"")+(v?1:0),`<div class="ph">${top()}<div class="tool"><h2>Verdict</h2><div class="res"><div><b>Open jury vote:</b> ${o.p}% guilty (${o.n})</div><div><b>Secret ballot:</b> ${s.p}% guilty (${s.n})</div></div>${st.rev&&v?`<div class="res"><b>Court in China: ${esc(v.cn.v)}</b><span>${esc(v.cn.sentence)}</span></div><div class="res"><b>Court in Switzerland: ${esc(v.ch.v)}</b><span>${esc(v.ch.sentence)}</span></div>`:`<p class="mute">The court is deliberating…</p>`}</div></div>`);
+ }
+ if(ph==="guess"){
+  if(p.inf) return mount("gi",`<div class="ph">${top()}<div class="wait"><div class="gavel">线</div><h2>They are hunting you.</h2><p class="mute">The room is trying to identify the informant. Stay calm.</p></div></div>`);
+  mount("gs",`<div class="ph">${top()}<div class="tool"><h2>Who was the informant?</h2><p class="mute">Someone on the jury secretly worked for State Security. Pick your suspect.</p><div class="gl" id="gl"></div></div></div>`,bindGuess);
+  return markGuess();
+ }
+ if(ph==="finale"){
+  const inf=Object.keys(S.players||{}).filter(id=>S.players[id].inf),g=(S.guess||{})[cid];
+  const best=[0,1].map(i=>dos(i)?.best).filter(Boolean);
+  return mount("fi"+inf.join()+g+best.length,`<div class="ph">${top()}<div class="tool"><h1>Court adjourned.</h1>${p.inf?`<div class="secret"><b class="red">You were the informant.</b><p>Did they catch you? Look at the screen.</p></div>`:`<div class="res"><b>The informant${inf.length>1?"s were":" was"}: ${inf.map(nameOf).map(esc).join(" & ")||"nobody"}</b><span>${g?(inf.includes(g)?"You caught them. Well read.":"You suspected the wrong person – just like real surveillance states, suspicion spreads."):"You didn't guess."}</span></div>`}${best.map(b=>`<div class="res"><b>Golden Hammer 金槌 · ${esc(nameOf(b.cid))}</b><span>“${esc(b.text)}”</span></div>`).join("")}<p class="note">Art of Resistance · Pop Culture in China · HSG. All data is deleted after the session.</p></div></div>`);
+ }
+}
+function joinHTML(){
+ const nm=store.get("trb_name")||"";
+ return `<div class="ph"><div class="hero"><div class="gavel">审</div><h1>Tribunal 404</h1><p class="mute">A role-play trial against a real artwork. You get a secret role – prosecution, defence or jury. You argue your role, not your own opinion.</p><div class="field"><label for="nm">Nickname (a pseudonym is fine – it may appear on the screen)</label><input id="nm" class="inp" maxlength="16" autocomplete="off" placeholder="e.g. Citizen 7" value="${esc(nm)}"></div><button class="btn" id="go">Enter the court</button><p class="note">No real names needed. Everything is deleted after the session.</p></div></div>`;
+}
+function bindJoin(){
+ const go=()=>{const n=$("#nm").value.trim().slice(0,16)||("Citizen "+Math.floor(10+Math.random()*90));store.set("trb_name",n);set(R("players/"+cid),{name:n,t:Date.now()})};
+ $("#go").onclick=go;$("#nm").onkeydown=e=>{if(e.key==="Enter")go()};
+}
+function bindArgs(){
+ $("#post").onclick=()=>{const t=$("#ta").value.trim();if(t.length<8)return toast("Write a bit more");if(argsOf(cs()).filter(a=>a.cid===cid).length>=3)return toast("Max. 3 arguments – vote for the best instead");push(R(`args/${cs()}`),{cid,side:me().role,text:t.slice(0,220),t:Date.now()});$("#ta").value="";toast("Filed with the court")};
+ $("#list").onclick=e=>{const b=e.target.closest("[data-up]");if(!b)return;const c=cs(),id=b.dataset.up,on=(((S.up||{})[c]||{})[id]||{})[cid];set(R(`up/${c}/${id}/${cid}`),on?null:1)};
+}
+function listArgs(){
+ const l=$("#list");if(!l)return;const c=cs(),side=me().role;
+ const A=argsOf(c).filter(a=>a.side===side).sort((x,y)=>y.n-x.n||x.t-y.t);
+ l.innerHTML=A.map(a=>{const on=(((S.up||{})[c]||{})[a.id]||{})[cid];return `<div class="arg"><p>${esc(a.text)}</p>${a.cid===cid?`<span class="mine">yours · ▲${a.n}</span>`:`<button class="up ${on?"on":""}" data-up="${a.id}">▲ ${a.n}</button>`}</div>`}).join("")||`<p class="note">No arguments yet – be the first.</p>`;
+}
+function bindQ(){
+ $("#post").onclick=()=>{const t=$("#ta").value.trim();if(t.length<6)return toast("Write a bit more");push(R(`qs/${cs()}`),{cid,text:t.slice(0,160),t:Date.now()});$("#ta").value="";toast("Question sent to the court")};
+}
+function listQ(){
+ const l=$("#list");if(!l)return;const Q=Object.values((S.qs||{})[cs()]||{}).filter(q=>q.cid===cid);
+ l.innerHTML=Q.length?`<p class="note">Your questions:</p>`+Q.map(q=>`<div class="arg"><p>${esc(q.text)}</p></div>`).join(""):"";
+}
+function bindVote(path){$$(".vb").forEach(b=>b.onclick=()=>{set(R(`${path}/${cs()}/${cid}`),+b.dataset.v);navigator.vibrate&&navigator.vibrate(30)})}
+function markVote(path){const my=((S[path]||{})[cs()]||{})[cid];$$(".vb").forEach(b=>b.classList.toggle("on",+b.dataset.v===my))}
+function bindGuess(){$("#gl").onclick=e=>{const b=e.target.closest("[data-g]");if(b)set(R(`guess/${cid}`),b.dataset.g)}}
+function markGuess(){const l=$("#gl");if(!l)return;const P=S.players||{},g=(S.guess||{})[cid];l.innerHTML=Object.keys(P).filter(id=>P[id].role==="jury"&&id!==cid).map(id=>`<button class="gb ${g===id?"on":""}" data-g="${id}">${esc(P[id].name)}</button>`).join("")||`<p class="note">No jurors.</p>`}
+
+const IMGS=[store.get("trb_img0"),store.get("trb_img1")];
+function loadImg(file,k){const im=new Image();im.onload=()=>{const s=Math.min(1,1400/Math.max(im.width,im.height));const cv=document.createElement("canvas");cv.width=Math.round(im.width*s);cv.height=Math.round(im.height*s);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);const d=cv.toDataURL("image/jpeg",.82);IMGS[k]=d;store.set("trb_img"+k,d);view="";renderHost();toast("Exhibit "+(k+1)+" loaded")};im.src=URL.createObjectURL(file)}
+const joinURL=()=>location.origin+location.pathname;
+function renderHost(){
+ hostEffects();
+ const st=S.state||{phase:"lobby"},c=st.case||0,K=CASES[c],P=S.players||{},ph=st.phase;
+ const head=`<header><div class="logo"><i>审</i>Tribunal&nbsp;404</div><span class="prog">${ph==="lobby"?"Role-play trial":esc(K.title)}</span><div class="sp"></div><span class="prog" id="aist">${aiStatus}</span></header>`;
+ const W=(k,body,cls,bind)=>mount(k,`<div class="bm">${head}<section class="stage ${cls||""}">${body}</section>${ctrl()}</div>`,()=>{bindCtrl();bind&&bind()});
+ const ex=sm=>`<div class="exhibit ${sm?"sm":""}">${IMGS[c]?`<img alt="${esc(K.work)}" src="${IMGS[c]}">`:`<div class="ph0"><span class="zh">证物 Exhibit</span><b>${esc(K.work)}</b><p>${esc(K.desc)}</p></div>`}</div>`;
+ const rc=()=>{const n={pros:0,def:0,jury:0};Object.values(P).forEach(p=>p.role&&n[p.role]++);return n};
+ if(ph==="lobby"){
+  W("h-lobby"+IMGS.map(x=>x?1:0).join(""),`<div><p class="k">ROLE-PLAY TRIAL · ART OF RESISTANCE</p><h1 class="hero1">Tribunal 404</h1><p class="sub">Scan to enter the court. You get a secret role – prosecution, defence or jury – and argue your role, not your own opinion.</p><div class="rc3" id="rc3"></div><div class="loaders">${CASES.map((k,i)=>`<label class="cb" for="im${i}">${IMGS[i]?"✓ ":""}Exhibit ${i+1}: load image<input id="im${i}" type="file" accept="image/*" hidden></label>`).join("")}</div></div><div class="qrbox"><div id="qr"></div><div class="url">${esc(joinURL().replace(/^https?:\/\//,""))}</div></div>`,"lob",()=>{new QRCode($("#qr"),{text:joinURL(),width:512,height:512,correctLevel:QRCode.CorrectLevel.M});CASES.forEach((k,i)=>{$("#im"+i).onchange=e=>e.target.files[0]&&loadImg(e.target.files[0],i)})});
+  const n=rc();$("#rc3").innerHTML=`<span><span class="count">${Object.keys(P).length}</span> <span class="mute">in court</span></span><span class="mute">Prosecution ${n.pros} · Defence ${n.def} · Jury ${n.jury}</span>`;
+  return;
+ }
+ if(ph==="charge") return W("h-charge"+c,`${ex()}<div class="indict"><div class="seal">人民<br>法院</div><p class="k" style="color:#7a7168">INDICTMENT · CASE ${c+1}</p><h2>${esc(K.title)}</h2><p style="font-size:19px"><b>Exhibit:</b> ${esc(K.work)}</p>${K.charges.map(x=>`<div class="chg"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("")}<p class="note" style="color:#7a7168">The court is in session. Check your phone for your role.</p></div>`,"two");
+ if(ph==="args"){
+  W("h-args"+c,`<div><p class="k">THE PARTIES FILE THEIR ARGUMENTS</p><div class="bigtime timer" data-end="1">--:--</div><div class="tally" id="tl"></div></div>${ex(1)}`,"two");
+  const A=argsOf(c);$("#tl").innerHTML=`<div><span class="count red">${A.filter(a=>a.side==="pros").length}</span><span class="mute">prosecution arguments</span></div><div><span class="count" style="color:var(--blue)">${A.filter(a=>a.side==="def").length}</span><span class="mute">defence arguments</span></div><div><span class="count" style="color:var(--gold)">${Object.keys((S.qs||{})[c]||{}).length}</span><span class="mute">jury questions</span></div>`;
+  return;
+ }
+ if(ph==="dossier"){
+  const d=dos(c);
+  return W("h-dos"+c+(d?1:0),d?`<div><p class="k">THE COURT FILE · STRONGEST POINTS, SCORED BY THE AI CLERK</p></div><div class="cols">${["pros","def"].map(s=>`<div class="side"><h3 style="color:${s==="pros"?"var(--red2)":"var(--blue)"}">${s==="pros"?"Prosecution":"Defence"}</h3>${(d[s]||[]).map(x=>`<div class="pt ${s}"><span class="sc">${x.s!=null?x.s+"/10":"▲"}</span><span>${esc(x.t)}</span></div>`).join("")||`<p class="mute">No arguments filed.</p>`}</div>`).join("")}</div>${d.note?`<p class="clerk">Clerk: ${esc(d.note)}</p>`:""}<p class="src">${esc(d.src||"")}</p>`:`<div><p class="k">THE COURT FILE</p><h1 class="hero1" style="font-size:72px">The clerk is reading the files…</h1></div>`);
+ }
+ if(ph==="plea"){
+  const sub=st.sub||"pros",q=(S.q||{})[c],d=dos(c)||{};
+  W("h-plea"+c+sub+(q?1:0),sub==="q"?`<div><p class="k">QUESTION FROM THE JURY ${q&&!q.judge?"· answer: "+esc(q.to):""}</p><p class="qbig">${q?"“"+esc(q.text)+"”":"The court is choosing the best question…"}</p><div class="bigtime timer" data-end="1" style="font-size:110px;margin-top:20px">--:--</div></div>${ex(1)}`
+   :`<div><p class="k">PLEA · 90 SECONDS</p><div class="speaker ${sub}">${sub==="pros"?"The prosecution":"The defence"}</div><div class="bigtime timer" data-end="1" style="font-size:150px;margin-top:10px">--:--</div></div><div class="side">${(d[sub]||[]).map(x=>`<div class="pt ${sub}"><span class="sc">${x.s!=null?x.s:"▲"}</span><span>${esc(x.t)}</span></div>`).join("")}</div>`,"two");
+  return;
+ }
+ if(ph==="vopen"){
+  W("h-vo"+c,`<div><p class="k">OPEN VOTE OF THE JURY · EVERYONE SEES YOUR CHOICE</p><h1 class="hero1" style="font-size:72px">Guilty or not guilty?</h1></div><div class="chips" id="chips"></div><div class="tally" id="tl"></div>`);
+  const V=(S.vopen||{})[c]||{},J=Object.keys(P).filter(id=>P[id].role==="jury"),t=tally("vopen",c);
+  $("#chips").innerHTML=J.map(id=>`<span class="chipv ${V[id]===1?"g":V[id]===0?"n":""}">${esc(P[id].name)}${V[id]===1?" · guilty":V[id]===0?" · not guilty":""}</span>`).join("")||`<p class="mute">No jurors.</p>`;
+  $("#tl").innerHTML=`<div><span class="count red">${t.g}</span><span class="mute">guilty</span></div><div><span class="count" style="color:var(--blue)">${t.n-t.g}</span><span class="mute">not guilty</span></div><div><span class="count">${J.length-t.n}</span><span class="mute">still undecided</span></div>`;
+  return;
+ }
+ if(ph==="vsecret"){
+  W("h-vs"+c,`<div><p class="k">SECRET BALLOT · EVERYONE · AS YOURSELF</p><h1 class="hero1" style="font-size:72px">Forget your role.</h1><p class="sub">Now everybody votes – anonymously. Nobody sees what you choose.</p></div><div class="tally" id="tl"></div>`);
+  $("#tl").innerHTML=`<div><span class="count">${tally("vsecret",c).n}</span><span class="mute">of ${Object.keys(P).length} ballots cast</span></div>`;
+  return;
+ }
+ if(ph==="verdict"){
+  const v=(S.verdict||{})[c],o=tally("vopen",c),s=tally("vsecret",c);
+  if(!st.rev) return W("h-vd"+c,`<div><p class="k">THE VOTES</p></div><div class="cols"><div class="vcard"><span class="k">OPEN VOTE · JURY · NAMES VISIBLE</span><span class="stat red">${o.p}%</span><p>guilty (${o.g} of ${o.n})</p></div><div class="vcard"><span class="k">SECRET BALLOT · EVERYONE · ANONYMOUS</span><span class="stat" style="color:var(--blue)">${s.p}%</span><p>guilty (${s.g} of ${s.n})</p></div></div><p class="clerk">${Math.abs(o.p-s.p)>=10?`A gap of ${Math.abs(o.p-s.p)} points between what was said in public and what was voted in secret.`:"Public and secret votes are close."} ${v?"The court has reached its verdicts.":"The court is deliberating…"}</p>`);
+  return W("h-vdr"+c+(v?1:0),v?`<div class="cols"><div class="vcard"><span class="k">A COURT IN CHINA 中华人民共和国</span><span class="vv ${/not/i.test(v.cn.v)?"n":"g"}">${esc(v.cn.v)}</span><p><b>${esc(v.cn.sentence)}</b></p><p>${esc(v.cn.reason)}</p></div><div class="vcard"><span class="k">A COURT IN SWITZERLAND</span><span class="vv ${/not/i.test(v.ch.v)?"n":"g"}">${esc(v.ch.v)}</span><p><b>${esc(v.ch.sentence)}</b></p><p>${esc(v.ch.reason)}</p></div></div><p class="reality">${esc(K.reality)}</p><p class="src">Verdicts: ${esc(v.src||"")} · simulated, not legal advice · Reality: ${esc(K.src)}</p>`:`<h1 class="hero1" style="font-size:72px">The court is deliberating…</h1>`);
+ }
+ if(ph==="guess"){
+  W("h-gs",`<div><p class="k">SOMEONE ON THE JURY WORKED FOR STATE SECURITY</p><h1 class="hero1" style="font-size:86px">Who was the informant? <span class="zh red">线人</span></h1></div><div class="tally" id="tl"></div>`);
+  $("#tl").innerHTML=`<div><span class="count">${Object.keys(S.guess||{}).length}</span><span class="mute">suspicions filed</span></div>`;
+  return;
+ }
+ if(ph==="finale"){
+  const inf=Object.keys(P).filter(id=>P[id].inf),G=Object.values(S.guess||{}),hit=G.filter(g=>inf.includes(g)).length;
+  const conv=[0,1].filter(i=>tally("vopen",i).n).map(i=>({i,t:tally("vopen",i)}));
+  const best=[0,1].map(i=>dos(i)?.best?{...dos(i).best,i}:null).filter(Boolean);
+  W("h-fi"+inf.join()+G.length+best.length,`<div class="cols"><div class="side"><p class="k">THE INFORMANT${inf.length>1?"S":""}</p><h1 class="hero1" style="font-size:80px;color:var(--red2)">${inf.map(nameOf).map(esc).join(" & ")||"nobody"}</h1><p class="sub">${G.length?`${hit} of ${G.length} suspected the right person (${Math.round(hit/G.length*100)}%).`:"Nobody filed a suspicion."}</p>${conv.map(x=>`<p class="clerk">Case ${x.i+1}: the open jury vote was ${x.t.p}% guilty – mission ${x.t.p>50?"<b class='red'>accomplished</b>":"failed"} for State Security.</p>`).join("")}</div><div class="side"><p class="k">GOLDEN HAMMER 金槌 · BEST ARGUMENT</p>${best.map(b=>`<div class="hammer"><span class="k">Case ${b.i+1} · ${b.side==="pros"?"Prosecution":"Defence"} · ${esc(nameOf(b.cid))}</span><q>${esc(b.text)}</q>${b.why?`<span class="mute">${esc(b.why)}</span>`:""}</div>`).join("")||`<p class="mute">No arguments were scored.</p>`}</div></div>`);
+ }
+}
+function ctrl(){
+ const st=S.state||{phase:"lobby"},c=st.case||0,ph=st.phase;
+ const b=(a,t,p)=>`<button class="cb ${p?"p":""}" data-a="${a}">${t}</button>`;
+ let m=ph!=="lobby"?b("prev","◀ Back"):"";
+ if(ph==="lobby")m+=b("next","Open the trial ▶",1);
+ if(ph==="charge")m+=b("next","Start arguments (4 min) ▶",1);
+ if(ph==="args")m+=b("plus","+30 s")+b("next","Close the files ▶",1);
+ if(ph==="dossier")m+=b("next","Prosecution pleads ▶",1);
+ if(ph==="plea")m+=b("plus","+30 s")+b("next",st.sub==="pros"?"Defence pleads ▶":st.sub==="def"?"Jury question ▶":"Open vote ▶",1);
+ if(ph==="vopen")m+=b("next","Secret ballot ▶",1);
+ if(ph==="vsecret")m+=b("next","Show the votes ▶",1);
+ if(ph==="verdict")m+=!st.rev?b("next","Court verdicts ▶",1):(c===0?b("appeal","Appeal: Ai Weiwei ▶",1):"")+b("next","Who was the informant? ▶",c!==0);
+ if(ph==="guess")m+=b("next","Unmask ▶",1);
+ return `<div class="ctrl">${m}<span class="sp"></span><span class="prog">Space / → = next step</span>${b("reset","Reset session")}</div>`;
+}
+function bindCtrl(){$$(".cb[data-a]").forEach(x=>x.onclick=()=>act(x.dataset.a,x))}
+let resetArm=0;
+async function act(a,el){
+ const st=S.state||{phase:"lobby",case:0},c=st.case||0,u=o=>update(R("state"),o),ph=st.phase;
+ if(a==="next"){
+  if(ph==="lobby"){assignInformants();return u({phase:"charge",case:0,rev:false,sub:null})}
+  if(ph==="charge")return u({phase:"args",endsAt:now()+T_ARGS*1000});
+  if(ph==="args")return u({phase:"dossier"});
+  if(ph==="dossier")return u({phase:"plea",sub:"pros",endsAt:now()+T_PLEA*1000});
+  if(ph==="plea"){if(st.sub==="pros")return u({sub:"def",endsAt:now()+T_PLEA*1000});if(st.sub==="def")return u({sub:"q",endsAt:now()+T_Q*1000});return u({phase:"vopen",sub:null})}
+  if(ph==="vopen")return u({phase:"vsecret"});
+  if(ph==="vsecret")return u({phase:"verdict",rev:false});
+  if(ph==="verdict")return st.rev?u({phase:"guess"}):u({rev:true});
+  if(ph==="guess")return u({phase:"finale"});
+  return;
+ }
+ if(a==="appeal")return u({phase:"charge",case:1,rev:false,sub:null});
+ if(a==="plus")return u({endsAt:Math.max(st.endsAt||0,now())+30000});
+ if(a==="prev"){
+  if(ph==="charge")return c===1?u({phase:"verdict",case:0,rev:true}):u({phase:"lobby"});
+  if(ph==="plea"&&st.sub!=="pros")return u({sub:st.sub==="q"?"def":"pros",endsAt:now()+T_PLEA*1000});
+  if(ph==="verdict"&&st.rev)return u({rev:false});
+  const B={args:"charge",dossier:"args",plea:"dossier",vopen:"plea",vsecret:"vopen",verdict:"vsecret",guess:"verdict",finale:"guess"};
+  if(ph==="vopen")return u({phase:"plea",sub:"q"});
+  if(ph==="guess")return u({phase:"verdict",rev:true});
+  return B[ph]&&u({phase:B[ph]});
+ }
+ if(a==="reset"){
+  if(Date.now()-resetArm>3000){resetArm=Date.now();el.textContent="Click again to wipe everything";return}
+  busyH.clear();return set(R(),{state:{phase:"lobby",case:0}});
+ }
+}
+if(HOST) addEventListener("keydown",e=>{
+ if(/INPUT|TEXTAREA/.test(e.target.tagName))return;
+ const st=S.state||{};
+ if(e.key===" "||e.key==="ArrowRight"){e.preventDefault();if(st.phase!=="finale")act("next")}
+ if(e.key==="ArrowLeft")act("prev");
+});
+setInterval(()=>{const st=S.state||{};$$("[data-end]").forEach(el=>{const left=(st.endsAt||0)-now();el.textContent=fmt(left);el.classList.toggle("low",left<15000)})},250);
+onValue(R(),s=>{
+ S=s.val()||{};
+ if(!S.state&&HOST) set(R("state"),{phase:"lobby",case:0});
+ try{HOST?renderHost():renderPhone()}catch(e){console.error("[trb]",e)}
+},e=>{$("#app").innerHTML=`<div class="ph"><div class="wait"><h2>Connection blocked</h2><p class="mute">${esc(e.message)}</p></div></div>`});
+if(HOST) getModel();
+</script>
+</body>
+</html>
