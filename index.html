@@ -308,6 +308,7 @@ async function judge(sub){
     j.triggers=(j.triggers||[]).slice(0,4).map(String);
     j.reason=String(j.reason||"").slice(0,320);
     j.account=String(j.account||"").slice(0,90);
+    if(j.p<50&&/delet|block/i.test(j.action))j.action=j.p>=30?"Visible only to you":"Allowed";if(j.p>=50&&/^(allowed|amplified)/i.test(j.action))j.action="Deleted after review";
     j.crit=Math.max(0,Math.min(100,Math.round(+j.crit)||0));j.style=["open","coded","none"].includes(j.style)?j.style:"none";j.topic=String(j.topic||"other").toLowerCase();
     j.src="Gemini · "+md._n;
     return j;
