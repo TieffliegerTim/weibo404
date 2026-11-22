@@ -259,9 +259,9 @@ Strongest prosecution points: ${(d.pros||[]).map(x=>x.t).join(" | ")||"none"}
 Strongest defence points: ${(d.def||[]).map(x=>x.t).join(" | ")||"none"}
 Class jury: open vote ${o.p}% guilty (${o.n} votes), secret ballot ${s.p}% guilty (${s.n} votes).
 Give two realistic verdicts:
-"cn": a court of the People's Republic of China under Xi Jinping. Consider that Chinese courts convict in well over 99% of criminal cases and that political speech cases under Art. 105 usually end in prison terms. The artist lives abroad, so also say what would realistically happen instead (for example pressure on family in China, entry ban, total censorship of the work).
+"cn": a court of the People's Republic of China under Xi Jinping. Consider that Chinese courts convict in well over 99% of criminal cases and that political speech cases under Art. 105 usually end in prison terms. Art. 105 (2) allows up to 5 years, more only if the case is "grave". Give the likely sentence IF the artist stood trial in China. Do not invent trials in absentia, asset freezes or other details – China rarely tries absent dissidents; in reality the state pressures family members, bans entry and censors the work.
 "ch": a Swiss court under the Federal Constitution (Art. 16 freedom of expression, Art. 21 freedom of art) and Swiss criminal law.
-Reply with JSON only: {"cn":{"v":"Guilty" or "Not guilty","sentence":"max 12 words","reason":"max 45 words"},"ch":{"v":"Guilty" or "Not guilty","sentence":"max 8 words","reason":"max 35 words"}}`);
+Reply with JSON only: {"cn":{"v":"Guilty" or "Not guilty","sentence":"likely sentence if tried in China, max 12 words, start with 'If tried in China:'","reason":"max 45 words"},"ch":{"v":"Guilty" or "Not guilty","sentence":"max 8 words","reason":"max 35 words"}}`);
  if(!j||!j.cn||!j.ch) j={cn:{v:"Guilty",sentence:"Several years in prison (Art. 105: up to 5, more if “grave”)",reason:"Mocking the leader and China's partnership with Russia is treated as rumour and slander endangering state power. Acquittals in such cases are practically unheard of."},ch:{v:"Not guilty",sentence:"No offence",reason:"Political satire about public figures is protected by freedom of expression (Art. 16) and freedom of art (Art. 21 of the Federal Constitution)."},src:"fallback (AI offline)"};
  else j.src="AI judge · "+(aiModel?._n||"");
  await set(R(`verdict/${c}`),j);
