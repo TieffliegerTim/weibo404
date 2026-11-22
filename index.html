@@ -171,6 +171,26 @@ p{margin:0}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;border:1px solid var(--line);padding:10px 16px;border-radius:12px;font-size:14px;z-index:9}
 @media (max-width:900px){.stage{grid-template-columns:1fr!important}.bm header,.stage,.ctrl{padding-left:16px;padding-right:16px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.mission{border-radius:14px;background:#2a0b10;border:1px solid #5a1a22;padding:10px 12px;font-size:14px;line-height:1.35}
+.mission b{color:var(--red2)}
+.lb{display:flex;flex-direction:column;gap:10px}
+.lbr{display:grid;grid-template-columns:44px 84px 1fr;gap:12px;align-items:center;background:#161414;border:1px solid var(--line);border-radius:14px;padding:8px}
+.lbr .rk{font-family:"Archivo Black";font-size:30px;text-align:center;color:var(--gold)}
+.lbr img{width:84px;height:84px;border-radius:10px;object-fit:cover}
+.lbr .nm2{font-weight:800;font-size:18px}
+.lbr .sc{font-size:15px;color:var(--mute)}
+.th{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));align-content:center}
+.tc{background:#141212;border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.tc h3{margin:0;font-size:20px;line-height:1.2}
+.tc .big{font-family:"Archivo Black";font-size:50px;line-height:1;color:var(--red2)}
+.tc p{font-size:16px;line-height:1.4;color:#d9d3cc}
+.tl{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));align-items:start;position:relative;margin:18px 0 8px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:15px;height:4px;background:linear-gradient(90deg,#5a1a22,var(--red))}
+.ev{display:flex;flex-direction:column;gap:8px;padding-right:14px;position:relative}
+.ev i{width:34px;height:34px;border-radius:50%;background:var(--bg);border:4px solid var(--red);display:block}
+.ev b{font-family:"Archivo Black";font-size:22px}
+.ev span{font-size:15px;line-height:1.35;color:#d9d3cc}
+.ev.now i{background:var(--red)}
 </style>
 </head>
 <body>
@@ -223,8 +243,8 @@ const RULES=[
 ];
 function ruleJudge(text){
  const hits=RULES.filter(([re])=>re.test(text||""));
- if(hits.length){const p=Math.min(99,Math.max(...hits.map(h=>h[1]))+(hits.length-1)*3);return {p,verdict:p>=50?"CENSOR":"ALLOW",action:p>=85?"Blocked at upload":p>=50?"Deleted after review":"Visible only to you",triggers:hits.map(h=>h[2]).slice(0,4),reason:`Keyword and symbol filter hit: ${hits.map(h=>h[2]).join(", ")}. Posts combining these codes are routinely removed on Weibo.`,account:p>=85?"warning or temporary posting ban":"post removed, no penalty",src:"keyword filter (AI offline)"}}
- return {p:12,verdict:"ALLOW",action:"Allowed",triggers:["no sensitive code found"],reason:"No blocked keyword or symbol in the elements list. A human reviewer would still look at the image.",account:"no consequence",src:"keyword filter (AI offline)"};
+ if(hits.length){const p=Math.min(99,Math.max(...hits.map(h=>h[1]))+(hits.length-1)*3);const tm={"Leader mockery":"leader","June 4th":"june4","Collective action":"collective","Dissidents":"rights","Sensitive politics":"rights","Anti-war / pro-Ukraine":"war","China–Russia mockery":"war","Censorship / discontent":"censorship"};return {p,crit:70,style:/[一-鿿]|8964|🐻|🍯|🥟|🦀|🕯/u.test(text)?"coded":"open",topic:tm[hits[0][2]]||"other",verdict:p>=50?"CENSOR":"ALLOW",action:p>=85?"Blocked at upload":p>=50?"Deleted after review":"Visible only to you",triggers:hits.map(h=>h[2]).slice(0,4),reason:`Keyword and symbol filter hit: ${hits.map(h=>h[2]).join(", ")}. Posts combining these codes are routinely removed on Weibo.`,account:p>=85?"warning or temporary posting ban":"post removed, no penalty",src:"keyword filter (AI offline)"}}
+ return {p:12,crit:10,style:"none",topic:"none",verdict:"ALLOW",action:"Allowed",triggers:["no sensitive code found"],reason:"No blocked keyword or symbol in the elements list. A human reviewer would still look at the image.",account:"no consequence",src:"keyword filter (AI offline)"};
 }
 
 const PROMPT=`You are CENSOR-AI in a university seminar on art and censorship in China. Estimate as realistically as possible how China's content-control system on Sina Weibo in 2025/26 (Xi Jinping's third term) would treat the post below. Think of the whole stack: keyword and image filters at upload, AI image recognition, human review teams of the platform, takedowns after user reports, and penalties for the account.
@@ -234,8 +254,12 @@ Calibrate with documented patterns:
 - Uncertain (30-60): ambiguous satire, censorship jokes (404, river crab, 1984), vulgar puns like 草泥马, neutral sympathy for civilians in Ukraine without blame, 996 complaints.
 - Low risk (0-25): apolitical, cute, everyday, patriotic or "positive energy" content; pro-Russia content, praise for Putin ("普京大帝"), anti-NATO or anti-US messages, the official term "special military operation", calls for peace that blame NATO or the US.
 Context changes meaning: a bear in a forest is harmless, a bear with honey next to a red flag is Xi. A Chinese and a Russian flag shaking hands is fine; the same with a clown or blood is not. Weibo may also hide a post (visible only to the author) instead of deleting it. Extreme nationalist hate or calls for war can be removed too.
+Use the full range of the scale. Reserve 90+ for unambiguous red lines. A post that only hints vaguely, or uses a single ambiguous symbol in a harmless context, usually stays up (15-45). Everyday complaints without a political target are mostly tolerated.
 Reply with JSON only:
 {"p": integer 0-100 = probability that the post is blocked, deleted or hidden,
+ "crit": integer 0-100 = how critical or subversive the message is toward China's leadership, its Russia policy, the war or censorship (0 = harmless or pro-government, 100 = sharp and open criticism); judge the meaning, not the risk,
+ "style": "open" if the criticism is explicit, "coded" if it hides behind codes, symbols or irony, "none" if there is no criticism,
+ "topic": one of "leader", "june4", "collective", "war", "censorship", "rights", "other", "none",
  "action": one of "Blocked at upload", "Deleted after review", "Visible only to you", "Comments restricted", "Allowed", "Amplified",
  "triggers": up to 4 short tags naming the concrete elements that matter,
  "reason": max 40 words in English, name the concrete elements in the image and caption and explain the censorship logic under Xi,
@@ -284,6 +308,7 @@ async function judge(sub){
     j.triggers=(j.triggers||[]).slice(0,4).map(String);
     j.reason=String(j.reason||"").slice(0,320);
     j.account=String(j.account||"").slice(0,90);
+    j.crit=Math.max(0,Math.min(100,Math.round(+j.crit)||0));j.style=["open","coded","none"].includes(j.style)?j.style:"none";j.topic=String(j.topic||"other").toLowerCase();
     j.src="Gemini · "+md._n;
     return j;
    }catch(e){console.warn("[w404] judge failed",e.message);if(/429|quota|exhaust|timeout|503/i.test(e.message))await sleep(6000*(k+1));else break}
@@ -302,6 +327,8 @@ function aiWatch(){
  });
 }
 const aiP=a=>a?(a.p??(a.verdict==="CENSOR"?(a.confidence||80):100-(a.confidence||80))):0;
+const score=a=>a?Math.round((a.crit||0)*(100-aiP(a))/100):0;
+function board(){const subs=S.subs||{},ai=S.ai||{};return Object.keys(subs).filter(id=>ai[id]).map(id=>({id,s:score(ai[id]),a:ai[id],sub:subs[id]})).sort((x,y)=>y.s-x.s)}
 
 const COLORS=["#E6162D","#F28C28","#2E86DE","#8E44AD","#16A085","#D35400","#C0392B","#34495E"];
 const colorOf=s=>COLORS[[...String(s)].reduce((a,c)=>a+c.charCodeAt(0),0)%COLORS.length];
@@ -402,12 +429,12 @@ function renderPhone(){
    $("#res").innerHTML=right===null?`<span class="mute">You didn't vote on this one.</span>`:right?`<b>You read the censor correctly.</b>`:`<b>The censor surprised you.</b>`;}
   return;
  }
- if(st.phase==="final"){
+ if(["final","theory","enemy"].includes(st.phase)){
   const mine=(S.subs||{})[cid];
   const v=mine?classVerdict(cid):null, a=(S.ai||{})[cid];
   return mount("final"+(mine?mine.t:0)+(a?a.t:""),`<div class="ph">${top()}<div class="tool">
    <h1>${mine?(v==="CENSOR"?"Your post became <span class=red>hidden transcript.</span>":"Your post survived as <span style='color:var(--gold)'>public transcript.</span>"):"Thanks for playing."}</h1>
-   ${mine?postHTML(mine,cid,{verdict:v}):""}
+   ${mine?postHTML(mine,cid,{verdict:v}):""}${a?`<div class="mission"><b>Smuggler score: ${score(a)}</b> · rank ${board().findIndex(r=>r.id===cid)+1} of ${board().length} · critical ${a.crit||0} × survival ${100-aiP(a)}%</div>`:""}
    ${a?`<div class="res"><div><b>CENSOR-AI: ${aiP(a)}% chance of deletion</b> · ${esc(a.action||"")}</div><div class="meter ai"><i style="width:${aiP(a)}%"></i></div><span class="mute">${esc(a.reason)}</span>${a.account?`<span class="mute">Your account: ${esc(a.account)}</span>`:""}</div>`:""}
    <p class="note">Art of Resistance · Pop Culture in China · HSG</p></div></div>`);
  }
@@ -431,6 +458,7 @@ const TABS=[["bg","Background"],["c","Codes & numbers"],["w","Words"],["s","Symb
 function createHTML(){
  const mine=(S.subs||{})[cid];
  return `<div class="tool">
+  <div class="mission"><b>Mission:</b> say something critical about the war, Xi &amp; Putin or censorship – and still get it past the censor. The most critical post with the lowest deletion risk wins.</div>
   <div class="cvwrap"><canvas id="cv" width="720" height="720" aria-label="Meme canvas"></canvas></div>
   <div class="selbar" id="selbar"></div>
   <div class="tabs" id="tabs">${TABS.map(([k,n])=>`<button class="tab ${M.tab===k?"on":""}" data-t="${k}">${n}</button>`).join("")}</div>
@@ -522,10 +550,12 @@ function renderHost(){
  aiWatch();
  const head=`<header><div class="logo"><i>404</i>Weibo&nbsp;404</div><div class="sp"></div><span class="prog" id="aist">${aiStatus}</span><span class="prog" id="hp"></span></header>`;
  const players=Object.values(S.players||{}), subs=S.subs||{}, ai=S.ai||{};
+ if(st.phase==="theory") return renderTheory(head);
+ if(st.phase==="enemy") return renderEnemy(head);
  if(st.phase==="lobby"){
   mount("h-lobby",`<div class="bm">${head}<section class="stage lob">
    <div><div class="big404" style="font-size:clamp(90px,11vw,180px)">404</div><h1>Can your meme get past the censor?</h1>
-   <p class="sub">Scan, pick a name, and get ${CREATE_MIN} minutes to build a meme from real Chinese internet codes. Then you decide what gets deleted.</p>
+   <p class="sub">Scan, pick a name, and get ${CREATE_MIN} minutes to build a meme from real Chinese internet codes. Mission: say something critical – and still get it through. Then you decide what gets deleted.</p>
    <div style="display:flex;gap:16px;align-items:baseline;margin-top:30px"><span class="count" id="pc">0</span><span class="mute" style="font-size:20px">users online</span></div>
    <div class="chips" id="chips"></div></div>
    <div class="qrbox"><div id="qr"></div><div class="url">${esc(joinURL().replace(/^https?:\/\//,""))}</div></div>
@@ -556,7 +586,7 @@ function renderHost(){
      <div class="pbig"><span class="pnum ${p>=50?"c":"a"}">${p}%</span><span class="act">${esc(a.action||"")}</span></div>
      <div class="meter ai"><i style="width:${p}%"></i></div>
      <div class="tags">${(a.triggers||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
-     <p class="why">${esc(a.reason)}</p>${a.account?`<p class="mute" style="font-size:17px">Account: ${esc(a.account)}</p>`:""}<p class="src">${esc(a.src||"")} · simulated estimate, not a real Weibo decision</p>`:
+     <p class="why">${esc(a.reason)}</p><p class="mute" style="font-size:17px">Critical message: ${a.crit??"–"}/100 · ${esc(a.style||"")} · smuggler score ${score(a)}</p>${a.account?`<p class="mute" style="font-size:17px">Account: ${esc(a.account)}</p>`:""}<p class="src">${esc(a.src||"")} · simulated estimate, not a real Weibo decision</p>`:
      `<div class="sealed"><span class="lock">AI</span>${a?"CENSOR-AI has calculated the risk. Sealed until the reveal.":"CENSOR-AI is still looking…"}</div>`}</div>
    </div></section>${ctrl()}</div>`,bindCtrl);
   const v=votesFor(id);
@@ -592,13 +622,51 @@ function renderHost(){
   mount("h-final"+ids.length+agree+rn,`<div class="bm">${head}<section class="stage fin">
    <div class="col"><p class="k">PUBLIC TRANSCRIPT · 已通过</p><div class="stat" style="color:var(--gold)">${kept.length}</div><p class="mute">posts the room let through</p><div class="minig">${g(kept)}</div></div>
    <div class="col"><p class="k">HIDDEN TRANSCRIPT · 已删除</p><div class="stat red">${gone.length}</div><p class="mute">posts the room deleted</p><div class="minig">${g(gone)}</div></div>
-   <div class="col"><p class="k">YOU VS. THE MACHINE VS. REALITY</p>
-    <div><div class="stat">${avgP}%</div><p class="mute">average deletion risk CENSOR-AI gave your memes</p></div>
-    <div><div class="stat">${withAI.length?Math.round(agree/withAI.length*100):0}%</div><p class="mute">of posts where the room decided like the AI</p></div>
-    <div><div class="stat">${rn?Math.round(rt/rn*100):0}%</div><p class="mute">correct guesses about China's real censors</p></div>
-    <p class="quote">Ai Weiwei and Badiucao make art the censor cannot quietly delete. Today you were the censor – and you learned to read the hidden transcript.</p></div>
+   <div class="col"><p class="k">BEST SMUGGLERS · critical message, low risk</p><div class="lb">${board().slice(0,3).map((r,i)=>`<div class="lbr"><span class="rk">${i+1}</span><img alt="" src="${r.sub.img}"><div><div class="nm2">${esc(r.sub.name)} · ${r.s} pts</div><div class="sc">critical ${r.a.crit||0} × survival ${100-aiP(r.a)}%</div></div></div>`).join("")||`<p class="mute">no scores yet</p>`}</div>
+    <p class="quote">Score = how critical × how likely it survives. Resistance in China lives inside that trade-off.</p></div>
   </section>${ctrl()}</div>`,bindCtrl);
  }
+}
+function renderTheory(head){
+ const subs=S.subs||{},ai=S.ai||{};const ids=order().filter(id=>subs[id]&&ai[id]);const A=ids.map(id=>ai[id]);
+ const avg=l=>l.length?Math.round(l.reduce((s,a)=>s+aiP(a),0)/l.length):null;
+ const pct=(n,d)=>d?Math.round(n/d*100):0;
+ const fm=v=>v===null?"–":v+"%";
+ const crit=A.filter(a=>(a.crit||0)>=40), coded=crit.filter(a=>a.style==="coded"), open=crit.filter(a=>a.style==="open");
+ const coll=A.filter(a=>a.topic==="collective"||a.topic==="june4"), lead=A.filter(a=>a.topic==="leader");
+ const safe=A.filter(a=>(a.crit||0)<30);
+ const roomP=ids.length?Math.round(ids.reduce((s,id)=>s+votesFor(id).p,0)/ids.length):0, aiAvg=avg(A)??0;
+ const war=A.filter(a=>a.topic==="war"), warAnti=war.filter(a=>(a.crit||0)>=50), warPro=war.filter(a=>(a.crit||0)<50);
+ const C=[
+  ["Hidden transcripts","James C. Scott (1990)",`${pct(coded.length,crit.length)}%`,`of your critical posts hid behind codes. Deletion risk coded: ${fm(avg(coded))} · open: ${fm(avg(open))}.`,"Under domination, critique moves into code. Pooh and the grass-mud horse are what Scott calls infrapolitics."],
+  ["Collective action is the red line","King, Pan & Roberts (2013)",fm(avg(coll)),`average risk for protest and June 4 codes, vs. ${fm(avg(lead))} for mocking the leader.`,"The state tolerates grumbling far more than anything that could bring people onto the street."],
+  ["Fear works – even in a game","Margaret Roberts (2018)",`${pct(safe.length,A.length)}%`,`of you posted something barely critical (critical score below 30).`,"Self-censorship is cheaper than deleting: fear, friction and flooding do most of the work."],
+  ["Gut feeling vs. the system","Room vs. CENSOR-AI",`${roomP}% / ${aiAvg}%`,`average vote to delete vs. average AI deletion risk. You were ${roomP>aiAvg?"stricter":"more lenient"} than the machine.`,"From outside, China's red lines are easy to misjudge – in both directions."],
+  ["Censorship as foreign policy","Russia–Ukraine war",war.length?`${fm(avg(warAnti))} / ${fm(avg(warPro))}`:"6 cases",war.length?`deletion risk for anti-war vs. pro-Russia posts.`:`Reality check: “Putin the Great” stayed up, the historians' anti-war letter was deleted.`,"What may be said about the war follows Beijing's partnership with Moscow."]
+ ];
+ mount("h-theory"+A.length+roomP,`<div class="bm">${head}<section class="stage th">${C.map(([h,s,big,txt,take])=>`<div class="tc"><h3>${esc(h)}</h3><span class="src">${esc(s)}</span><div class="big">${esc(big)}</div><p>${esc(txt)}</p><p class="mute" style="font-size:15px">${esc(take)}</p></div>`).join("")}</section>${ctrl()}</div>`,bindCtrl);
+ $("#hp").textContent="What your memes tell us";
+}
+const ENEMY=[
+ ["1998","Golden Shield","The Ministry of Public Security's project that becomes the backbone of the Great Firewall."],
+ ["2009","Walls go up","Twitter and Facebook are blocked; Sina Weibo launches as the controllable alternative."],
+ ["2013","Rumour rule","A 'rumour' reposted 500 times can bring up to three years in prison; big influencers are detained."],
+ ["2014","Xi takes the wheel","A new central cyber leading group, chaired by Xi; the CAC becomes the chief censor."],
+ ["2017","Cybersecurity Law","Real-name registration becomes law; platforms are liable for what users post."],
+ ["2018","Party commission","The cyber group becomes a Party commission – the year the letter N was blocked."],
+ ["2022","Location shown","Weibo displays every user's province; after the A4 protests police check phones."],
+ ["2025","Cyber ID","A state 'network ID' for logging in to apps launches, voluntary for now."],
+ ["Today","AI moderation","Filters, AI and human reviewers work together – like CENSOR-AI today."]
+];
+function renderEnemy(head){
+ mount("h-enemy",`<div class="bm">${head}<section class="stage" style="align-content:center;gap:22px">
+  <div><p class="k">THE OTHER SIDE</p><h1 style="font-size:clamp(40px,4.4vw,72px);margin-top:8px">The censor keeps learning.</h1>
+  <p class="mute" style="font-size:20px;max-width:78ch;margin-top:12px">Not one agency but a layered system: the Party's cyberspace commission (CAC) draws the lines, the Ministry of Public Security's internet police enforce them, State Security hunts “foreign infiltration”, and the platforms delete.</p></div>
+  <div class="tl">${ENEMY.map(([y,h,t],i)=>`<div class="ev ${i===ENEMY.length-1?"now":""}"><i></i><b>${esc(y)}</b><span><strong>${esc(h)}</strong><br>${esc(t)}</span></div>`).join("")}</div>
+  <p class="quote">Codes that spread end up on the filter lists. Resistance is a moving target – one reason artists like Badiucao and Ai Weiwei work from outside China.</p>
+  <p class="src">Sources: Freedom House, Freedom on the Net: China (2023–2025); China Digital Times; Reuters.</p>
+  </section>${ctrl()}</div>`,bindCtrl);
+ $("#hp").textContent="The opponent";
 }
 function ctrl(){
  const st=S.state||{phase:"lobby"};
@@ -608,7 +676,9 @@ function ctrl(){
  if(st.phase==="create") m=b("plus","+1 min")+b("vote","End posting → start vote ▶",1);
  if(st.phase==="vote") m=b("prev","◀ Back")+(st.revealed?b("next",st.cur+1<order().length?"Next post ▶":"Reality check ▶",1):b("reveal","Reveal ▶",1));
  if(st.phase==="reality") m=b("prev","◀ Back")+(st.rrev?b("next",(st.rcur||0)+1<REAL.length?"Next case ▶":"Final screen ▶",1):b("reveal","Reveal ▶",1));
- if(st.phase==="final") m=b("prev","◀ Back");
+ if(st.phase==="final") m=b("prev","◀ Back")+b("next","Theory ▶",1);
+ if(st.phase==="theory") m=b("prev","◀ Back")+b("next","The censor evolves ▶",1);
+ if(st.phase==="enemy") m=b("prev","◀ Back");
  return `<div class="ctrl">${m}<span class="sp"></span><span class="prog">Space / → = next step</span>${b("reset","Reset session")}</div>`;
 }
 function bindCtrl(){ $$(".cb").forEach(x=>x.onclick=()=>act(x.dataset.a,x)); }
@@ -620,6 +690,8 @@ async function act(a,el){
  if(a==="vote"){const subs=S.subs||{};const o=Object.keys(subs).sort((x,y)=>subs[x].t-subs[y].t);await set(R("order"),o);return u(o.length?{phase:"vote",cur:0,revealed:false}:{phase:"reality",rcur:0,rrev:false})}
  if(a==="reveal") return u(st.phase==="vote"?{revealed:true}:{rrev:true});
  if(a==="next"){
+  if(st.phase==="final") return u({phase:"theory"});
+  if(st.phase==="theory") return u({phase:"enemy"});
   if(st.phase==="vote") return st.cur+1<order().length?u({cur:st.cur+1,revealed:false}):u({phase:"reality",rcur:0,rrev:false});
   if(st.phase==="reality") return (st.rcur||0)+1<REAL.length?u({rcur:(st.rcur||0)+1,rrev:false}):u({phase:"final"});
  }
@@ -627,6 +699,8 @@ async function act(a,el){
   if(st.phase==="vote") return st.revealed?u({revealed:false}):st.cur>0?u({cur:st.cur-1,revealed:true}):null;
   if(st.phase==="reality") return st.rrev?u({rrev:false}):st.rcur>0?u({rcur:st.rcur-1,rrev:true}):(order().length?u({phase:"vote",cur:order().length-1,revealed:true}):null);
   if(st.phase==="final") return u({phase:"reality",rcur:REAL.length-1,rrev:true});
+  if(st.phase==="theory") return u({phase:"final"});
+  if(st.phase==="enemy") return u({phase:"theory"});
  }
  if(a==="reset"){
   if(Date.now()-resetArm>3000){resetArm=Date.now();el.textContent="Click again to wipe everything";return}
@@ -638,7 +712,7 @@ if(HOST) addEventListener("keydown",e=>{
  const st=S.state||{phase:"lobby"};
  if(e.key===" "||e.key==="ArrowRight"){e.preventDefault();
   if(st.phase==="lobby")act("start");else if(st.phase==="create")act("vote");
-  else if(st.phase==="vote")act(st.revealed?"next":"reveal");else if(st.phase==="reality")act(st.rrev?"next":"reveal");}
+  else if(st.phase==="vote")act(st.revealed?"next":"reveal");else if(st.phase==="reality")act(st.rrev?"next":"reveal");else if(st.phase==="final"||st.phase==="theory")act("next");}
  if(e.key==="ArrowLeft")act("prev");
 });
 
