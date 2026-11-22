@@ -239,7 +239,7 @@ Reply with JSON only:
  "action": one of "Blocked at upload", "Deleted after review", "Visible only to you", "Comments restricted", "Allowed", "Amplified",
  "triggers": up to 4 short tags naming the concrete elements that matter,
  "reason": max 40 words in English, name the concrete elements in the image and caption and explain the censorship logic under Xi,
- "account": max 10 words, likely consequence for the user's account}
+ "account": max 10 words, likely consequence for the user's account. Be sober and typical: usually the post is removed, sometimes a warning or a temporary posting ban (禁言); account deletion only for repeated or severe cases; police attention only for organising protests or very prominent posts}
 `;
 let aiModel=null, aiBusy=null, aiStatus="CENSOR-AI connecting…";
 const MODELS=["gemini-flash-lite-latest","gemini-flash-latest","gemini-3.8-flash","gemini-2.5-flash-lite"];
