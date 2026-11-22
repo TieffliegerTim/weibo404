@@ -181,15 +181,15 @@ p{margin:0}
 .lbr .sc{font-size:15px;color:var(--mute)}
 .th{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));align-content:center}
 .tc{background:#141212;border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px}
-.tc h3{margin:0;font-size:20px;line-height:1.2}
-.tc .big{font-family:"Archivo Black";font-size:50px;line-height:1;color:var(--red2)}
-.tc p{font-size:16px;line-height:1.4;color:#d9d3cc}
+.tc h3{margin:0;font-size:23px;line-height:1.2}
+.tc .big{font-family:"Archivo Black";font-size:60px;line-height:1;color:var(--red2)}
+.tc p{font-size:18px;line-height:1.4;color:#d9d3cc}
 .tl{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));align-items:start;position:relative;margin:18px 0 8px}
 .tl::before{content:"";position:absolute;left:0;right:0;top:15px;height:4px;background:linear-gradient(90deg,#5a1a22,var(--red))}
 .ev{display:flex;flex-direction:column;gap:8px;padding-right:14px;position:relative}
 .ev i{width:34px;height:34px;border-radius:50%;background:var(--bg);border:4px solid var(--red);display:block}
-.ev b{font-family:"Archivo Black";font-size:22px}
-.ev span{font-size:15px;line-height:1.35;color:#d9d3cc}
+.ev b{font-family:"Archivo Black";font-size:26px}
+.ev span{font-size:17px;line-height:1.35;color:#d9d3cc}
 .ev.now i{background:var(--red)}
 </style>
 </head>
@@ -640,12 +640,12 @@ function renderTheory(head){
  const war=A.filter(a=>a.topic==="war"), warAnti=war.filter(a=>(a.crit||0)>=50), warPro=war.filter(a=>(a.crit||0)<50);
  const C=[
   ["Hidden transcripts","James C. Scott (1990)",`${pct(coded.length,crit.length)}%`,`of your critical posts hid behind codes. Deletion risk coded: ${fm(avg(coded))} · open: ${fm(avg(open))}.`,"Under domination, critique moves into code. Pooh and the grass-mud horse are what Scott calls infrapolitics."],
-  ["Collective action is the red line","King, Pan & Roberts (2013)",fm(avg(coll)),`average risk for protest and June 4 codes, vs. ${fm(avg(lead))} for mocking the leader.`,"The state tolerates grumbling far more than anything that could bring people onto the street."],
+  ["Collective action is the red line","King, Pan & Roberts (2013)",fm(avg(coll)),`average risk for protest and June 4 codes, ${lead.length?`vs. ${fm(avg(lead))} for mocking the leader.`:"(no leader-mockery post to compare today)."}`,"The state tolerates grumbling far more than anything that could bring people onto the street."],
   ["Fear works – even in a game","Margaret Roberts (2018)",`${pct(safe.length,A.length)}%`,`of you posted something barely critical (critical score below 30).`,"Self-censorship is cheaper than deleting: fear, friction and flooding do most of the work."],
   ["Gut feeling vs. the system","Room vs. CENSOR-AI",`${roomP}% / ${aiAvg}%`,`average vote to delete vs. average AI deletion risk. You were ${roomP>aiAvg?"stricter":"more lenient"} than the machine.`,"From outside, China's red lines are easy to misjudge – in both directions."],
   ["Censorship as foreign policy","Russia–Ukraine war",war.length?`${fm(avg(warAnti))} / ${fm(avg(warPro))}`:"6 cases",war.length?`deletion risk for anti-war vs. pro-Russia posts.`:`Reality check: “Putin the Great” stayed up, the historians' anti-war letter was deleted.`,"What may be said about the war follows Beijing's partnership with Moscow."]
  ];
- mount("h-theory"+A.length+roomP,`<div class="bm">${head}<section class="stage th">${C.map(([h,s,big,txt,take])=>`<div class="tc"><h3>${esc(h)}</h3><span class="src">${esc(s)}</span><div class="big">${esc(big)}</div><p>${esc(txt)}</p><p class="mute" style="font-size:15px">${esc(take)}</p></div>`).join("")}</section>${ctrl()}</div>`,bindCtrl);
+ mount("h-theory"+A.length+roomP,`<div class="bm">${head}<section class="stage th"><div style="grid-column:1/-1"><p class="k">WHAT YOUR MEMES TELL US</p><h1 style="font-size:clamp(40px,4.4vw,72px);margin-top:8px">Five findings from today's censorship lab.</h1></div>${C.map(([h,s,big,txt,take])=>`<div class="tc"><h3>${esc(h)}</h3><span class="src">${esc(s)}</span><div class="big">${esc(big)}</div><p>${esc(txt)}</p><p class="mute" style="font-size:15px">${esc(take)}</p></div>`).join("")}</section>${ctrl()}</div>`,bindCtrl);
  $("#hp").textContent="What your memes tell us";
 }
 const ENEMY=[
