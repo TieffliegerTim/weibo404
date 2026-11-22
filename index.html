@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0c">
+<title>Weibo 404</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;700;800&family=Noto+Sans+SC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b0c;--ink:#f3f1ee;--mute:#9a9692;--line:#2a2827;--red:#E6162D;--red2:#ff3b4f;--paper:#fbfaf7;--pink:#1a1012;--gold:#FFD23F;--card:#151415}
+*{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:16px/1.45 Inter,system-ui,sans-serif;overflow-x:clip}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.zh{font-family:"Noto Sans SC",sans-serif;font-weight:900}
+.disp{font-family:"Archivo Black",Inter,sans-serif;letter-spacing:-.01em}
+.red{color:var(--red2)}.mute{color:var(--mute)}
+#app{min-height:100%}
+.ph{max-width:520px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding:max(14px,env(safe-area-inset-top)) 14px max(16px,env(safe-area-inset-bottom))}
+.bar{display:flex;align-items:center;gap:10px;padding:4px 2px 12px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800}
+.logo i{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--red);font-style:normal;font-family:"Archivo Black";font-size:12px;color:#fff}
+.bar .sp{flex:1}
+.pill{font-size:13px;padding:5px 10px;border-radius:99px;background:#1c1a1a;border:1px solid var(--line);white-space:nowrap}
+.pill.hot{background:var(--red);border-color:var(--red);color:#fff}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:10px 4px}
+.big404{font-family:"Archivo Black";font-size:clamp(84px,30vw,150px);line-height:.85;color:var(--red);text-shadow:4px 0 #00e5ff55,-4px 0 #ff00aa44;animation:gl 3s infinite}
+@keyframes gl{0%,92%,100%{transform:none}93%{transform:translate(3px,-2px) skewX(6deg)}95%{transform:translate(-4px,1px)}97%{transform:translate(2px,2px) skewX(-4deg)}}
+h1{font-family:"Archivo Black";font-size:32px;line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:"Archivo Black";font-size:22px;line-height:1.1;margin:0}
+p{margin:0}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;color:var(--mute)}
+.inp{width:100%;height:52px;border-radius:14px;border:1px solid var(--line);background:#141313;padding:0 14px;font-size:17px;outline:none}
+.inp:focus{border-color:var(--red)}
+.btn{height:56px;border-radius:16px;background:var(--red);color:#fff;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;transition:transform .1s}
+.btn:active{transform:scale(.98)}.btn:disabled{opacity:.45}
+.btn.ghost{background:#1c1a1a;border:1px solid var(--line);color:var(--ink)}
+.note{font-size:13px;color:var(--mute)}
+.wait{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;flex:1;justify-content:center}
+.eye{width:86px;height:86px;border-radius:50%;border:3px solid var(--red);display:grid;place-items:center;position:relative}
+.eye::after{content:"";width:28px;height:28px;border-radius:50%;background:var(--red);animation:look 3s ease-in-out infinite}
+@keyframes look{0%,100%{transform:translateX(-14px)}50%{transform:translateX(14px)}}
+.tool{display:flex;flex-direction:column;gap:10px}
+.cvwrap{position:relative;border-radius:16px;overflow:hidden;background:#fff;aspect-ratio:1;box-shadow:0 0 0 1px #ffffff14}
+#cv{width:100%;height:100%;display:block;touch-action:none}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid #0000;box-shadow:0 0 0 1px #ffffff30}
+.sw.on{border-color:#fff}
+.tb{height:40px;min-width:40px;padding:0 10px;border-radius:11px;background:#1c1a1a;border:1px solid var(--line);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px}
+.tb.on{background:#fff;color:#000}
+.dot{border-radius:50%;background:currentColor;display:block}
+.timer{font-family:"Archivo Black";font-variant-numeric:tabular-nums}
+.posted{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:#10220f;border:1px solid #2c5a29;font-size:14px}
+.post{background:var(--paper);color:#1b1b1b;border-radius:18px;overflow:hidden;position:relative}
+.post .hd{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;flex:none}
+.post .nm{font-weight:800;font-size:15px;line-height:1.2}
+.post .tm{font-size:12px;color:#8a8580}
+.post .tx{padding:0 14px 12px;font-size:16px;white-space:pre-wrap;overflow-wrap:anywhere}
+.post .im{position:relative;background:#eee}
+.post .im img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.post .ft{display:flex;justify-content:space-around;padding:10px;border-top:1px solid #ece8e2;font-size:13px;color:#8a8580}
+.post.gone .im img{filter:grayscale(1) blur(6px) brightness(.55)}
+.post.gone .tx{filter:blur(4px)}
+.stamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-14deg);border:6px solid var(--red);color:var(--red);padding:6px 16px 8px;border-radius:10px;text-align:center;background:#ffffffd9;animation:slam .45s cubic-bezier(.2,1.6,.4,1) both;pointer-events:none;white-space:nowrap;z-index:3}
+.stamp b{display:block;font-family:"Noto Sans SC";font-weight:900;font-size:44px;line-height:1}
+.stamp small{display:block;font-family:"Archivo Black";font-size:15px;letter-spacing:.06em}
+.stamp.ok{border-color:#111;color:#111;background:var(--gold)}
+@keyframes slam{0%{transform:translate(-50%,-50%) rotate(-14deg) scale(3);opacity:0}100%{transform:translate(-50%,-50%) rotate(-14deg) scale(1);opacity:1}}
+.vbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vb{height:78px;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:17px;border:2px solid var(--line);background:#161515}
+.vb .zh{font-size:22px}
+.vb.c.on{background:var(--red);border-color:var(--red);color:#fff}
+.vb.a.on{background:var(--gold);border-color:var(--gold);color:#111}
+.res{border-radius:14px;background:#161515;border:1px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.meter{height:10px;border-radius:99px;background:#2a2827;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--red);border-radius:99px;transition:width .6s}
+.case{background:var(--paper);color:#1b1b1b;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.case .meta{font-size:13px;color:#8a8580;display:flex;gap:8px;flex-wrap:wrap}
+.case .q{font-size:18px;font-weight:700;line-height:1.35}
+.truth{border-radius:14px;padding:12px 14px;font-size:15px;line-height:1.4}
+.truth.c{background:var(--red);color:#fff}.truth.a{background:var(--gold);color:#111}
+.bm{min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto;background:radial-gradient(1200px 700px at 85% -10%,#2a0b10 0%,transparent 60%),var(--bg)}
+.bm header{display:flex;align-items:center;gap:16px;padding:22px 36px 0}
+.bm header .logo{font-size:20px}.bm header .logo i{width:40px;height:40px;font-size:15px;border-radius:12px}
+.bm header .sp{flex:1}
+.stage{padding:20px 36px;display:grid;gap:32px;align-items:stretch}
+.lob{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:center}
+.lob h1{font-size:clamp(48px,5.6vw,92px);line-height:.95}
+.lob .sub{font-size:22px;color:#cfcac4;max-width:34ch;margin-top:18px}
+.qrbox{background:#fff;border-radius:28px;padding:26px;display:flex;flex-direction:column;align-items:center;gap:14px;color:#111;justify-self:center;box-shadow:0 30px 80px #e6162d33}
+#qr canvas,#qr img{width:min(34vh,380px)!important;height:auto!important}
+.qrbox .url{font-weight:800;font-size:18px;text-align:center;overflow-wrap:anywhere;max-width:380px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;max-height:22vh;overflow:hidden}
+.chip{padding:7px 13px;border-radius:99px;background:#1d1b1b;border:1px solid var(--line);font-size:16px;animation:pop .35s both}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.count{font-family:"Archivo Black";font-size:64px;line-height:1}
+.crt{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}
+.bigtime{font-family:"Archivo Black";font-size:clamp(110px,15vw,240px);line-height:.9;font-variant-numeric:tabular-nums}
+.bigtime.low{color:var(--red2);animation:gl 1s infinite}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;align-content:start}
+.tile{aspect-ratio:1;border-radius:14px;overflow:hidden;position:relative;background:#1a1919;animation:pop .4s both}
+.tile img{width:100%;height:100%;object-fit:cover;filter:blur(10px) brightness(.7)}
+.tile span{position:absolute;left:8px;bottom:8px;font-size:12px;font-weight:700;background:#000a;padding:3px 8px;border-radius:99px}
+.scan{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0 45%,#e6162d66 50%,transparent 55%);background-size:100% 220%;animation:scan 1.4s linear infinite}
+@keyframes scan{from{background-position:0 100%}to{background-position:0 -100%}}
+.vt{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.vt .post{max-width:min(62vh,640px);justify-self:center;width:100%;align-self:center}
+.vt .post .tx{font-size:20px}
+.panel{display:flex;flex-direction:column;gap:18px;justify-content:center}
+.k{font-size:15px;color:var(--mute);font-weight:700}
+.bars{display:flex;flex-direction:column;gap:14px}
+.brow{display:grid;grid-template-columns:150px 1fr 74px;gap:14px;align-items:center;font-size:20px;font-weight:800}
+.btrack{height:44px;border-radius:12px;background:#1d1b1b;overflow:hidden}
+.btrack i{display:block;height:100%;border-radius:12px;transition:width .8s cubic-bezier(.2,.9,.2,1)}
+.brow .n{text-align:right;font-variant-numeric:tabular-nums}
+.aibox{border-radius:20px;border:1px solid #3a1a1f;background:linear-gradient(180deg,#1a0d10,#120b0c);padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+.aibox .top{display:flex;align-items:center;gap:12px}
+.verdict{font-family:"Archivo Black";font-size:34px;line-height:1}
+.verdict.c{color:var(--red2)}.verdict.a{color:var(--gold)}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:14px;padding:5px 11px;border-radius:99px;background:#2a1418;color:#ffb3bc;font-weight:700}
+.aibox .why{font-size:19px;line-height:1.4;color:#e9e3dd}
+.sealed{display:flex;align-items:center;gap:12px;font-size:19px;color:#cfcac4}
+.lock{width:42px;height:42px;border-radius:12px;background:#2a1418;display:grid;place-items:center;color:var(--red2);font-weight:900}
+.rl{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.rl .case{padding:30px;gap:16px;align-self:center}
+.rl .case .q{font-size:30px}
+.rl .case .meta{font-size:17px}
+.rl .truth{font-size:21px;padding:18px 20px}
+.src{font-size:14px;color:var(--mute)}
+.fin{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)}
+.col{display:flex;flex-direction:column;gap:12px}
+.minig{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.mini{aspect-ratio:1;border-radius:10px;overflow:hidden;position:relative;background:#1a1919}
+.mini img{width:100%;height:100%;object-fit:cover}
+.mini.gone img{filter:grayscale(1) blur(3px) brightness(.45)}
+.mini.gone::after{content:"404";position:absolute;inset:0;display:grid;place-items:center;font-family:"Archivo Black";color:var(--red2);font-size:26px}
+.stat{font-family:"Archivo Black";font-size:72px;line-height:.9}
+.quote{font-size:24px;line-height:1.3;color:#e9e3dd;border-left:4px solid var(--red);padding-left:18px}
+.ctrl{display:flex;gap:10px;align-items:center;padding:12px 36px 18px;flex-wrap:wrap;opacity:.35;transition:opacity .2s}
+.ctrl:hover,.ctrl:focus-within{opacity:1}
+.cb{height:40px;padding:0 14px;border-radius:10px;background:#1d1b1b;border:1px solid var(--line);font-weight:700;font-size:14px}
+.cb.p{background:var(--red);border-color:var(--red);color:#fff}
+.ctrl .sp{flex:1}
+.prog{font-size:16px;color:var(--mute);font-weight:700}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;border:1px solid var(--line);padding:10px 16px;border-radius:12px;font-size:14px;z-index:9}
+@media (max-width:900px){.stage{grid-template-columns:1fr!important}.bm header,.stage,.ctrl{padding-left:16px;padding-right:16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><div class="ph"><div class="wait"><div class="eye"></div><p class="mute">Connecting…</p></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {getDatabase,ref,onValue,set,update,remove} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+
+const app=initializeApp({apiKey:"AIzaSyA3GseZ9QJ0X4r2L0phJqh-NCZZI-HrHPA",authDomain:"weibo404.firebaseapp.com",databaseURL:"https://weibo404-default-rtdb.europe-west1.firebasedatabase.app",projectId:"weibo404",storageBucket:"weibo404.firebasestorage.app",messagingSenderId:"571494018319",appId:"1:571494018319:web:17df34d7025ff75d44627a"});
+const db=getDatabase(app);
+const ROOM="rooms/live", R=p=>ref(db,ROOM+(p?"/"+p:""));
+const HOST=new URLSearchParams(location.search).has("beamer");
+const CREATE_MIN=10;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
+let cid=store.get("w404cid"); if(!cid){cid="u"+Math.random().toString(36).slice(2,10);store.set("w404cid",cid)}
+let S={}, off=0, view="";
+const now=()=>Date.now()+off;
+onValue(ref(db,".info/serverTimeOffset"),s=>off=s.val()||0);
+const toast=t=>{const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.append(d);setTimeout(()=>d.remove(),2600)};
+
+const REAL=[
+ {y:"July 2017",pl:"Weibo",q:"A meme putting Xi Jinping next to Winnie the Pooh, walking side by side.",t:"c",w:"Pooh images and searches were blocked. Mocking the leader, even in code, gets removed.",s:"BBC News (2017)"},
+ {y:"Feb 2018",pl:"Weibo",q:"One comment under the news that presidential term limits will be scrapped: “我不同意 – I disagree.”",t:"c",w:"“Disagree” became an illegal word. The letter “N” (as in N terms in office) was blocked for a day too.",s:"CJR (2018); Business Insider (2018)"},
+ {y:"22 Feb 2022",pl:"Weibo · Horizon News",q:"A state-owned news account posts its newsroom rules for the Ukraine crisis: “Do not post anything unfavorable to Russia or pro-Western.”",t:"c",w:"Deleted the same day. The hidden transcript leaked into public by accident and had to disappear again.",s:"China Digital Times (2022); VOA (2022)"},
+ {y:"24 Feb 2022",pl:"Weibo",q:"A translated Putin war speech; top comments celebrate “Putin the Great” and “the greatest strategist of the century.”",t:"a",w:"Stayed up and spread. Pro-Russia enthusiasm fits the official line.",s:"DFRLab (2022); IBTimes (2022)"},
+ {y:"26 Feb 2022",pl:"WeChat",q:"Five history professors from top Chinese universities publish an open letter: “We strongly oppose Russia's war against Ukraine.”",t:"c",w:"Taken down after about two hours and 40 minutes online.",s:"The Guardian (2022); China Digital Times (2022)"},
+ {y:"Mar 2022",pl:"Bilibili / Weibo",q:"A video asking “What exactly did the U.S. do in Ukraine?” pushing the claim of secret US bio-labs.",t:"a",w:"One of the top videos on the topic; the narrative was also repeated by China's Foreign Ministry.",s:"The China Story, ANU (2022)"}
+];
+
+const RULES=[
+ [/pooh|winnie|维尼|小熊|包子|steamed bun|xi ?jinping|习近平|习大大|emperor|皇帝|for life|终身|term limit|连任|\bxi\b/i,"Leader mockery"],
+ [/tiananmen|天安门|tank ?man|坦克|8964|六四|june ?4|may ?35|五月三十五|candle|蜡烛|vigil/i,"June 4th"],
+ [/protest|抗议|游行|rise up|revolution|革命|blank paper|白纸|a4|strike|罢工|unite|join us|集会|lie flat|躺平/i,"Collective action"],
+ [/liu xiaobo|刘晓波|empty chair|空椅子|ai ?wei ?wei|艾未未|badiucao|巴丢草|dissident/i,"Dissidents"],
+ [/taiwan independence|台独|free tibet|藏独|xinjiang|uyghur|维吾尔|hong ?kong|光复|freedom|democracy|民主|自由|human rights|人权/i,"Sensitive politics"],
+ [/no war|stop (the )?war|anti.?war|反战|slava ukraini|glory to ukraine|stand with ukraine|putin.*(killer|murder|war criminal|dictator)|(killer|murder|war criminal|dictator).*putin|invasion|侵略|入侵|bucha|布查/i,"Anti-war / pro-Ukraine"],
+ [/xi.*putin|putin.*xi|no.?limits|无上限/i,"China–Russia mockery"],
+ [/草泥马|grass.?mud|河蟹|河蟹|censor|404|审查|和谐/i,"Mocking censorship"]
+];
+function ruleJudge(text){
+ const hits=RULES.filter(([re])=>re.test(text||"")).map(r=>r[1]);
+ if(hits.length) return {verdict:"CENSOR",confidence:Math.min(95,55+hits.length*15),triggers:hits.slice(0,4),reason:`Keyword filter hit in the caption: ${hits.join(", ")}. On Weibo, posts like this are usually blocked before anyone sees them.`,src:"keyword filter"};
+ return {verdict:"ALLOW",confidence:40,triggers:["no keyword hit"],reason:"No blocked keyword in the caption. The image itself could not be analysed by the keyword filter, so a human censor would still have to look.",src:"keyword filter"};
+}
+
+const PROMPT=`You are CENSOR-AI, a simulation of the automated content-moderation filter of the Chinese platform Sina Weibo, used in a university seminar on art and censorship. Judge the post (a drawing or photo plus a caption) the way that filter would have in 2022–2026, based on documented practice:
+1 Mocking or criticising Xi Jinping or top leaders, also in code (Winnie the Pooh, steamed bun, emperor, term limits, "I disagree").
+2 June 4th / Tiananmen (tanks, Tank Man, 8964, "May 35th", candles).
+3 Collective-action potential: calls to protest, white A4 paper protests, slogans, vigils, "lie flat". Research (King, Pan & Roberts 2013) shows collective-action potential is censored even more reliably than mere criticism.
+4 Dissidents and dissident artists (Liu Xiaobo, empty chair, Ai Weiwei, Badiucao).
+5 Taiwan / Tibet / Xinjiang / Hong Kong independence, democracy or human-rights messages.
+6 Russia–Ukraine war: anti-war messages, pro-Ukraine symbols with a message, criticism of Putin or mocking the Xi–Putin friendship are usually removed; pro-Russia, anti-NATO, anti-US content is usually allowed.
+7 Pornographic or very vulgar content.
+Harmless, apolitical, patriotic, cute or everyday content is allowed. Satire that is clearly aimed at the leadership is censored even if subtle.
+Reply with JSON only: {"verdict":"CENSOR" or "ALLOW","confidence":0-100,"triggers":[up to 4 short tags],"reason":"max 35 words in English: name what you see in the image and caption and why it would be blocked or pass"}
+Caption: `;
+let aiModel=null, aiTried=false;
+const MODELS=["gemini-2.5-flash","gemini-flash-latest","gemini-2.5-flash-lite","gemini-2.0-flash"];
+async function getModel(){
+ if(aiModel||aiTried) return aiModel; aiTried=true;
+ try{
+  const m=await import("https://www.gstatic.com/firebasejs/12.0.0/firebase-ai.js");
+  const ai=m.getAI(app,{backend:new m.GoogleAIBackend()});
+  for(const name of MODELS){
+   try{const md=m.getGenerativeModel(ai,{model:name,generationConfig:{responseMimeType:"application/json",temperature:.2}});
+     await md.generateContent("Reply with {\"ok\":true}"); aiModel=md; aiModel._n=name; console.log("[w404] AI model",name); break;
+   }catch(e){console.warn("[w404] model failed",name,e.message)}
+  }
+ }catch(e){console.warn("[w404] AI SDK failed",e)}
+ return aiModel;
+}
+async function judge(sub){
+ const md=await getModel();
+ if(md){
+  try{
+   const b64=(sub.img||"").split(",")[1];
+   const parts=[{text:PROMPT+JSON.stringify(sub.text||"(no caption)")}];
+   if(b64) parts.push({inlineData:{mimeType:"image/jpeg",data:b64}});
+   const r=await md.generateContent(parts);
+   let t=r.response.text().trim().replace(/^```(json)?|```$/g,"");
+   const j=JSON.parse(t);
+   j.verdict=String(j.verdict).toUpperCase().includes("CENSOR")?"CENSOR":"ALLOW";
+   j.confidence=Math.max(0,Math.min(100,+j.confidence||50));
+   j.triggers=(j.triggers||[]).slice(0,4).map(String);
+   j.reason=String(j.reason||"").slice(0,300);
+   j.src="Gemini · "+md._n;
+   return j;
+  }catch(e){console.warn("[w404] judge failed",e)}
+ }
+ return ruleJudge(sub.text);
+}
+const busy=new Set(); let queue=Promise.resolve();
+function aiWatch(){
+ if(!HOST) return;
+ const subs=S.subs||{}, ai=S.ai||{};
+ for(const [id,s] of Object.entries(subs)){
+  if((ai[id]&&ai[id].t===s.t)||busy.has(id+s.t)) continue;
+  busy.add(id+s.t);
+  queue=queue.then(async()=>{const j=await judge(s); j.t=s.t; await set(R("ai/"+id),j); await new Promise(r=>setTimeout(r,1500));});
+ }
+}
+
+const COLORS=["#E6162D","#F28C28","#2E86DE","#8E44AD","#16A085","#D35400","#C0392B","#34495E"];
+const colorOf=s=>COLORS[[...String(s)].reduce((a,c)=>a+c.charCodeAt(0),0)%COLORS.length];
+const order=()=>S.order||[];
+const votesFor=id=>{const v=(S.votes||{})[id]||{};const a=Object.values(v);const c=a.filter(x=>x===1).length;return {n:a.length,c,a:a.length-c,p:a.length?Math.round(c/a.length*100):0}};
+const rvFor=i=>{const v=(S.rvotes||{})[i]||{};const a=Object.values(v);const c=a.filter(x=>x===1).length;return {n:a.length,c,a:a.length-c,p:a.length?Math.round(c/a.length*100):0}};
+const fmt=ms=>{ms=Math.max(0,ms);const s=Math.ceil(ms/1000);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+function postHTML(sub,id,opts={}){
+ const gone=opts.verdict==="CENSOR";
+ return `<article class="post ${gone?"gone":""}">
+  <div class="hd"><div class="av" style="background:${colorOf(sub.name)}">${esc((sub.name||"?").slice(0,1).toUpperCase())}</div>
+   <div><div class="nm">${esc(sub.name)}</div><div class="tm">just now · from Weibo 404</div></div></div>
+  ${sub.text?`<div class="tx">${esc(sub.text)}</div>`:""}
+  <div class="im"><img alt="Submitted artwork" src="${sub.img}">${opts.verdict?stampHTML(opts.verdict):""}</div>
+  <div class="ft"><span>转发 Repost</span><span>评论 Comment</span><span>赞 Like</span></div></article>`;
+}
+const stampHTML=v=>v==="CENSOR"?`<div class="stamp"><b>已删除</b><small>CENSORED · 404</small></div>`:`<div class="stamp ok"><b>已通过</b><small>APPROVED</small></div>`;
+function mount(key,html,bind){ if(view===key) return false; view=key; $("#app").innerHTML=html; bind&&bind(); return true; }
+
+let draft=null;
+function renderPhone(){
+ const st=S.state||{phase:"lobby"};
+ const meP=(S.players||{})[cid];
+ if(!meP) return mount("join",joinHTML(),bindJoin);
+ const name=meP.name;
+ const top=(r)=>`<div class="bar"><div class="logo"><i>404</i>Weibo&nbsp;404</div><div class="sp"></div>${r||`<span class="pill">${esc(name)}</span>`}</div>`;
+ if(st.phase==="lobby") return mount("lobby",`<div class="ph">${top()}<div class="wait"><div class="eye"></div><h2>You're in.</h2><p class="mute">The censor is watching. Wait until the platform opens.</p></div></div>`);
+ if(st.phase==="create"){ mount("create",`<div class="ph">${top(`<span class="pill hot timer" data-end="1">--:--</span>`)}${createHTML()}</div>`,bindCreate); return updCreate(); }
+ if(st.phase==="vote"){
+  const id=order()[st.cur], sub=(S.subs||{})[id];
+  if(!sub) return mount("vwait",`<div class="ph">${top()}<div class="wait"><div class="eye"></div><p class="mute">Loading the next post…</p></div></div>`);
+  const k="vote"+st.cur+(st.revealed?"r":"");
+  mount(k,`<div class="ph">${top(`<span class="pill">${st.cur+1} / ${order().length}</span>`)}
+   <div class="tool"><p class="note">${id===cid?"This is your post. You can still vote.":"Would this survive on Weibo?"}</p>
+   ${postHTML(sub,id,{verdict:st.revealed?classVerdict(id):null})}
+   ${st.revealed?`<div class="res" id="res"></div>`:`<div class="vbtns"><button class="vb c" data-v="1"><span class="zh">删除</span>Censor</button><button class="vb a" data-v="0"><span class="zh">放行</span>Let it through</button></div><p class="note" style="text-align:center">You can change your vote until the reveal.</p>`}</div></div>`,
+   ()=>$$(".vb").forEach(b=>b.onclick=()=>{set(R(`votes/${id}/${cid}`),+b.dataset.v);navigator.vibrate&&navigator.vibrate(30)}));
+  const my=((S.votes||{})[id]||{})[cid];
+  $$(".vb").forEach(b=>b.classList.toggle("on",+b.dataset.v===my));
+  if(st.revealed&&$("#res")){const v=votesFor(id),a=(S.ai||{})[id];
+   $("#res").innerHTML=`<div><b>Class:</b> ${v.p}% voted censor (${v.n} votes)</div><div class="meter"><i style="width:${v.p}%"></i></div>${a?`<div><b>CENSOR-AI:</b> ${a.verdict==="CENSOR"?"<span class=red>CENSOR</span>":"ALLOW"} · ${a.confidence}%<br><span class="mute">${esc(a.reason)}</span></div>`:""}`;}
+  return;
+ }
+ if(st.phase==="reality"){
+  const c=REAL[st.rcur||0]; if(!c) return;
+  const k="real"+st.rcur+(st.rrev?"r":"");
+  mount(k,`<div class="ph">${top(`<span class="pill">Reality check ${st.rcur+1}/${REAL.length}</span>`)}<div class="tool">
+   <p class="note">This really happened. What did the censor do?</p>
+   <div class="case"><div class="meta"><b>${esc(c.y)}</b><span>${esc(c.pl)}</span></div><div class="q">${esc(c.q)}</div></div>
+   ${st.rrev?`<div class="truth ${c.t}"><b>${c.t==="c"?"已删除 · CENSORED":"已通过 · STAYED UP"}</b><br>${esc(c.w)}</div><div class="res" id="res"></div>`:
+   `<div class="vbtns"><button class="vb c" data-v="1"><span class="zh">删除</span>Censored</button><button class="vb a" data-v="0"><span class="zh">放行</span>Stayed up</button></div>`}</div></div>`,
+   ()=>$$(".vb").forEach(b=>b.onclick=()=>{set(R(`rvotes/${st.rcur}/${cid}`),+b.dataset.v);navigator.vibrate&&navigator.vibrate(30)}));
+  const my=((S.rvotes||{})[st.rcur]||{})[cid];
+  $$(".vb").forEach(b=>b.classList.toggle("on",+b.dataset.v===my));
+  if(st.rrev&&$("#res")){const right=my===undefined?null:(my===1)===(c.t==="c");
+   $("#res").innerHTML=right===null?`<span class="mute">You didn't vote on this one.</span>`:right?`<b>You read the censor correctly.</b>`:`<b>The censor surprised you.</b>`;}
+  return;
+ }
+ if(st.phase==="final"){
+  const mine=(S.subs||{})[cid];
+  const v=mine?classVerdict(cid):null, a=(S.ai||{})[cid];
+  return mount("final"+(mine?mine.t:0)+(a?a.verdict:""),`<div class="ph">${top()}<div class="tool">
+   <h1>${mine?(v==="CENSOR"?"Your post became <span class=red>hidden transcript.</span>":"Your post survived as <span style='color:var(--gold)'>public transcript.</span>"):"Thanks for playing."}</h1>
+   ${mine?postHTML(mine,cid,{verdict:v}):""}
+   ${a?`<div class="res"><div><b>CENSOR-AI said:</b> ${a.verdict} (${a.confidence}%)</div><span class="mute">${esc(a.reason)}</span></div>`:""}
+   <p class="note">Art of Resistance · Pop Culture in China · HSG</p></div></div>`);
+ }
+}
+const classVerdict=id=>{const v=votesFor(id);return v.n?(v.p>=50?"CENSOR":"ALLOW"):((S.ai||{})[id]?.verdict||"ALLOW")};
+function joinHTML(){
+ const nm=store.get("w404name")||"";
+ return `<div class="ph"><div class="hero">
+  <div class="big404">404</div>
+  <h1>Can your art get past the censor?</h1>
+  <p class="mute">You get 10 minutes to post a drawing or photo on a fake Weibo. Then the room decides: delete or let it through. An AI censor judges too.</p>
+  <div class="field"><label for="nm">Your display name</label><input id="nm" class="inp" maxlength="18" autocomplete="nickname" placeholder="e.g. 网友 Lin" value="${esc(nm)}"></div>
+  <button class="btn" id="go">Enter the platform</button>
+  <p class="note">Anonymous nicknames are fine. Everything is deleted after the session.</p></div></div>`;
+}
+function bindJoin(){
+ const go=()=>{let n=$("#nm").value.trim().slice(0,18)||("网友"+Math.floor(1000+Math.random()*9000));store.set("w404name",n);set(R("players/"+cid),{name:n,t:Date.now()})};
+ $("#go").onclick=go; $("#nm").onkeydown=e=>{if(e.key==="Enter")go()};
+}
+function createHTML(){
+ const mine=(S.subs||{})[cid];
+ return `<div class="tool">
+  <p class="note">Draw or upload something that comments on the war, on Xi and Putin, or on censorship. Coded or open – your call.</p>
+  <div class="cvwrap"><canvas id="cv" width="720" height="720" aria-label="Drawing canvas"></canvas></div>
+  <div class="row" id="pal">${["#111111","#E6162D","#FFD23F","#2E86DE","#1FA35B","#ffffff"].map((c,i)=>`<button class="sw ${i?"":"on"}" data-c="${c}" style="background:${c}" aria-label="Colour ${c}"></button>`).join("")}</div>
+  <div class="row">
+   ${[5,12,26].map((s,i)=>`<button class="tb sz ${i==1?"on":""}" data-s="${s}" aria-label="Brush ${s}"><span class="dot" style="width:${6+i*5}px;height:${6+i*5}px"></span></button>`).join("")}
+   <button class="tb" id="er">Eraser</button><button class="tb" id="un">Undo</button><button class="tb" id="cl">Clear</button>
+   <label class="tb" for="ph">Photo<input id="ph" type="file" accept="image/*" hidden></label>
+  </div>
+  <div class="field"><label for="tx">Caption (optional)</label><input id="tx" class="inp" maxlength="90" placeholder="Write like a Weibo post…" value="${esc(mine?.text||"")}"></div>
+  <div id="pst"></div>
+  <button class="btn" id="sub">${mine?"Update my post":"发布 · Post it"}</button>
+ </div>`;
+}
+let cv,cx,dirty=false;
+function bindCreate(){
+ cv=$("#cv"); cx=cv.getContext("2d"); const W=720;
+ cx.fillStyle="#fff"; cx.fillRect(0,0,W,W);
+ const mine=(S.subs||{})[cid];
+ if(draft){cx.putImageData(draft,0,0)} else if(mine){const im=new Image();im.onload=()=>cx.drawImage(im,0,0,W,W);im.src=mine.img}
+ let col="#111111",size=12,er=false,down=false,last=null; const hist=[];
+ const pos=e=>{const r=cv.getBoundingClientRect();return [(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*W/r.height]};
+ const line=(a,b)=>{cx.strokeStyle=er?"#fff":col;cx.lineWidth=er?size*2.2:size;cx.lineCap=cx.lineJoin="round";cx.beginPath();cx.moveTo(a[0],a[1]);cx.lineTo(b[0],b[1]);cx.stroke()};
+ cv.onpointerdown=e=>{e.preventDefault();cv.setPointerCapture(e.pointerId);hist.push(cx.getImageData(0,0,W,W));if(hist.length>25)hist.shift();down=true;last=pos(e);line(last,[last[0]+.1,last[1]+.1]);dirty=true};
+ cv.onpointermove=e=>{if(!down)return;const p=pos(e);line(last,p);last=p};
+ cv.onpointerup=cv.onpointercancel=()=>{down=false;draft=cx.getImageData(0,0,W,W)};
+ $$("#pal .sw").forEach(b=>b.onclick=()=>{col=b.dataset.c;er=false;$("#er").classList.remove("on");$$("#pal .sw").forEach(x=>x.classList.toggle("on",x===b))});
+ $$(".sz").forEach(b=>b.onclick=()=>{size=+b.dataset.s;$$(".sz").forEach(x=>x.classList.toggle("on",x===b))});
+ $("#er").onclick=()=>{er=!er;$("#er").classList.toggle("on",er)};
+ $("#un").onclick=()=>{const h=hist.pop();if(h){cx.putImageData(h,0,0);draft=h}};
+ $("#cl").onclick=()=>{hist.push(cx.getImageData(0,0,W,W));cx.fillStyle="#fff";cx.fillRect(0,0,W,W);draft=null};
+ $("#ph").onchange=e=>{const f=e.target.files[0];if(!f)return;const im=new Image();im.onload=()=>{hist.push(cx.getImageData(0,0,W,W));const s=Math.max(W/im.width,W/im.height);cx.drawImage(im,(W-im.width*s)/2,(W-im.height*s)/2,im.width*s,im.height*s);draft=cx.getImageData(0,0,W,W);dirty=true;URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f)};
+ $("#sub").onclick=submit;
+}
+async function submit(){
+ const o=document.createElement("canvas");o.width=o.height=480;o.getContext("2d").drawImage(cv,0,0,480,480);
+ const img=o.toDataURL("image/jpeg",.72);
+ const name=(S.players||{})[cid]?.name||"?";
+ $("#sub").disabled=true;
+ try{await set(R("subs/"+cid),{name,img,text:($("#tx").value||"").trim().slice(0,90),t:Date.now()});dirty=false;toast("Posted. The censor is looking at it…")}
+ catch(e){toast("Upload failed – try again")}
+ $("#sub").disabled=false;
+}
+function updCreate(){
+ const mine=(S.subs||{})[cid];
+ if($("#pst")) $("#pst").innerHTML=mine?`<div class="posted"><b>Posted ✓</b><span>You can still change it until time runs out.</span></div>`:"";
+ if($("#sub")) $("#sub").textContent=mine?"Update my post":"发布 · Post it";
+}
+let autoSent=false;
+
+const joinURL=()=>location.origin+location.pathname;
+function renderHost(){
+ const st=S.state||{phase:"lobby"};
+ aiWatch();
+ const head=`<header><div class="logo"><i>404</i>Weibo&nbsp;404</div><div class="sp"></div><span class="prog" id="hp"></span></header>`;
+ const players=Object.values(S.players||{}), subs=S.subs||{}, ai=S.ai||{};
+ if(st.phase==="lobby"){
+  mount("h-lobby",`<div class="bm">${head}<section class="stage lob">
+   <div><div class="big404" style="font-size:clamp(90px,11vw,180px)">404</div><h1>Can your art get past the censor?</h1>
+   <p class="sub">Scan, pick a name, and get 10 minutes to post on a Weibo that is being watched. Then you decide what gets deleted.</p>
+   <div style="display:flex;gap:16px;align-items:baseline;margin-top:30px"><span class="count" id="pc">0</span><span class="mute" style="font-size:20px">users online</span></div>
+   <div class="chips" id="chips"></div></div>
+   <div class="qrbox"><div id="qr"></div><div class="url">${esc(joinURL().replace(/^https?:\/\//,""))}</div></div>
+  </section>${ctrl()}</div>`,()=>{new QRCode($("#qr"),{text:joinURL(),width:512,height:512,correctLevel:QRCode.CorrectLevel.M});bindCtrl()});
+  $("#pc").textContent=players.length;
+  $("#chips").innerHTML=players.sort((a,b)=>a.t-b.t).map(p=>`<span class="chip">${esc(p.name)}</span>`).join("");
+  return;
+ }
+ if(st.phase==="create"){
+  mount("h-create",`<div class="bm">${head}<section class="stage crt">
+   <div style="display:flex;flex-direction:column;justify-content:center;gap:18px"><p class="k">TIME LEFT TO POST</p><div class="bigtime timer" data-end="1">--:--</div>
+   <div style="display:flex;gap:16px;align-items:baseline"><span class="count" id="sc">0</span><span class="mute" style="font-size:22px" id="sc2"></span></div>
+   <p class="quote">Every post is screened by CENSOR-AI the moment it arrives. You won't see its verdict until the vote.</p></div>
+   <div class="tiles" id="tiles"></div></section>${ctrl()}</div>`,bindCtrl);
+  const ids=Object.keys(subs);
+  $("#sc").textContent=ids.length; $("#sc2").textContent=`of ${players.length} have posted`;
+  $("#tiles").innerHTML=ids.sort((a,b)=>subs[a].t-subs[b].t).map(id=>`<div class="tile"><img alt="" src="${subs[id].img}">${ai[id]&&ai[id].t===subs[id].t?`<span>screened ✓</span>`:`<div class="scan"></div><span>scanning…</span>`}</div>`).join("");
+  return;
+ }
+ if(st.phase==="vote"){
+  const id=order()[st.cur], sub=subs[id];
+  if(!sub){mount("h-none",`<div class="bm">${head}<section class="stage"><h1>No posts yet.</h1></section>${ctrl()}</div>`,bindCtrl);return}
+  const a=ai[id];
+  mount("h-vote"+st.cur+(st.revealed?"r":"")+(a?a.t:""),`<div class="bm">${head}<section class="stage vt">
+   ${postHTML(sub,id,{verdict:st.revealed?classVerdict(id):null})}
+   <div class="panel"><p class="k">THE ROOM VOTES</p><div class="bars" id="bars"></div>
+    <div class="aibox">${st.revealed&&a?`<div class="top"><span class="lock">AI</span><span class="k" style="margin:0">CENSOR-AI VERDICT</span></div>
+     <div class="verdict ${a.verdict==="CENSOR"?"c":"a"}">${a.verdict==="CENSOR"?"已删除 · CENSOR":"已通过 · ALLOW"} <span class="mute" style="font-size:22px">${a.confidence}%</span></div>
+     <div class="tags">${(a.triggers||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
+     <p class="why">${esc(a.reason)}</p><p class="src">${esc(a.src||"")} · simulated moderation, not a real Weibo decision</p>`:
+     `<div class="sealed"><span class="lock">AI</span>${a?"CENSOR-AI has reached a verdict. Sealed until the reveal.":"CENSOR-AI is still looking…"}</div>`}</div>
+   </div></section>${ctrl()}</div>`,bindCtrl);
+  const v=votesFor(id);
+  $("#hp").textContent=`Post ${st.cur+1} / ${order().length}`;
+  $("#bars").innerHTML=st.revealed?
+   `<div class="brow"><span class="zh">删除 Censor</span><div class="btrack"><i style="width:${v.p}%;background:var(--red)"></i></div><span class="n">${v.p}%</span></div>
+    <div class="brow"><span class="zh">放行 Allow</span><div class="btrack"><i style="width:${v.n?100-v.p:0}%;background:var(--gold)"></i></div><span class="n">${v.n?100-v.p:0}%</span></div>`:
+   `<div class="brow" style="grid-template-columns:1fr"><span><span class="count">${v.n}</span> <span class="mute">of ${players.length} votes in · hidden until reveal</span></span></div>`;
+  return;
+ }
+ if(st.phase==="reality"){
+  const i=st.rcur||0,c=REAL[i];
+  mount("h-real"+i+(st.rrev?"r":""),`<div class="bm">${head}<section class="stage rl">
+   <div class="case"><div class="meta"><b>${esc(c.y)}</b><span>${esc(c.pl)}</span></div><div class="q">${esc(c.q)}</div></div>
+   <div class="panel"><p class="k">REALITY CHECK – WHAT DID THE REAL CENSOR DO?</p><div class="bars" id="bars"></div>
+   ${st.rrev?`<div class="truth ${c.t}"><b class="zh" style="font-size:28px">${c.t==="c"?"已删除 · CENSORED":"已通过 · STAYED UP"}</b><br>${esc(c.w)}</div><p class="src">Source: ${esc(c.s)}</p>`:""}</div>
+  </section>${ctrl()}</div>`,bindCtrl);
+  const v=rvFor(i);
+  $("#hp").textContent=`Reality check ${i+1} / ${REAL.length}`;
+  $("#bars").innerHTML=st.rrev?
+   `<div class="brow"><span>Room: censored</span><div class="btrack"><i style="width:${v.p}%;background:var(--red)"></i></div><span class="n">${v.p}%</span></div>
+    <div class="brow"><span>Room: stayed up</span><div class="btrack"><i style="width:${v.n?100-v.p:0}%;background:var(--gold)"></i></div><span class="n">${v.n?100-v.p:0}%</span></div>`:
+   `<div class="brow" style="grid-template-columns:1fr"><span><span class="count">${v.n}</span> <span class="mute">guesses in</span></span></div>`;
+  return;
+ }
+ if(st.phase==="final"){
+  const ids=order().filter(id=>subs[id]);
+  const gone=ids.filter(id=>classVerdict(id)==="CENSOR"), kept=ids.filter(id=>classVerdict(id)!=="CENSOR");
+  const withAI=ids.filter(id=>ai[id]); const agree=withAI.filter(id=>ai[id].verdict===classVerdict(id)).length;
+  const aiCut=withAI.filter(id=>ai[id].verdict==="CENSOR").length;
+  let rt=0,rn=0; REAL.forEach((c,i)=>{Object.values((S.rvotes||{})[i]||{}).forEach(x=>{rn++;if((x===1)===(c.t==="c"))rt++})});
+  const g=l=>l.map(id=>`<div class="mini ${classVerdict(id)==="CENSOR"?"gone":""}"><img alt="" src="${subs[id].img}"></div>`).join("")||`<p class="mute">none</p>`;
+  mount("h-final"+ids.length+agree+rn,`<div class="bm">${head}<section class="stage fin">
+   <div class="col"><p class="k">PUBLIC TRANSCRIPT · 已通过</p><div class="stat" style="color:var(--gold)">${kept.length}</div><p class="mute">posts the room let through</p><div class="minig">${g(kept)}</div></div>
+   <div class="col"><p class="k">HIDDEN TRANSCRIPT · 已删除</p><div class="stat red">${gone.length}</div><p class="mute">posts the room deleted</p><div class="minig">${g(gone)}</div></div>
+   <div class="col"><p class="k">YOU VS. THE MACHINE VS. REALITY</p>
+    <div><div class="stat">${withAI.length?Math.round(agree/withAI.length*100):0}%</div><p class="mute">of verdicts where the room agreed with CENSOR-AI (AI deleted ${aiCut} of ${withAI.length})</p></div>
+    <div><div class="stat">${rn?Math.round(rt/rn*100):0}%</div><p class="mute">correct guesses about what China's real censors did</p></div>
+    <p class="quote">Ai Weiwei and Badiucao make art the censor cannot quietly delete. Today you were the censor – and you learned to read the hidden transcript.</p></div>
+  </section>${ctrl()}</div>`,bindCtrl);
+ }
+}
+function ctrl(){
+ const st=S.state||{phase:"lobby"};
+ const b=(a,t,p)=>`<button class="cb ${p?"p":""}" data-a="${a}">${t}</button>`;
+ let m="";
+ if(st.phase==="lobby") m=b("start",`Open platform · ${CREATE_MIN} min ▶`,1);
+ if(st.phase==="create") m=b("plus","+1 min")+b("vote","End posting → start vote ▶",1);
+ if(st.phase==="vote") m=b("prev","◀ Back")+(st.revealed?b("next",st.cur+1<order().length?"Next post ▶":"Reality check ▶",1):b("reveal","Reveal ▶",1));
+ if(st.phase==="reality") m=b("prev","◀ Back")+(st.rrev?b("next",(st.rcur||0)+1<REAL.length?"Next case ▶":"Final screen ▶",1):b("reveal","Reveal ▶",1));
+ if(st.phase==="final") m=b("prev","◀ Back");
+ return `<div class="ctrl">${m}<span class="sp"></span><span class="prog">Space / → = next step</span>${b("reset","Reset session")}</div>`;
+}
+function bindCtrl(){ $$(".cb").forEach(x=>x.onclick=()=>act(x.dataset.a,x)); }
+let resetArm=0;
+async function act(a,el){
+ const st=S.state||{phase:"lobby"}, u=o=>update(R("state"),o);
+ if(a==="start") return u({phase:"create",endsAt:now()+CREATE_MIN*60000,cur:0,revealed:false,rcur:0,rrev:false});
+ if(a==="plus") return u({endsAt:(st.endsAt||now())+60000});
+ if(a==="vote"){const subs=S.subs||{};const o=Object.keys(subs).sort((x,y)=>subs[x].t-subs[y].t);await set(R("order"),o);return u(o.length?{phase:"vote",cur:0,revealed:false}:{phase:"reality",rcur:0,rrev:false})}
+ if(a==="reveal") return u(st.phase==="vote"?{revealed:true}:{rrev:true});
+ if(a==="next"){
+  if(st.phase==="vote") return st.cur+1<order().length?u({cur:st.cur+1,revealed:false}):u({phase:"reality",rcur:0,rrev:false});
+  if(st.phase==="reality") return (st.rcur||0)+1<REAL.length?u({rcur:(st.rcur||0)+1,rrev:false}):u({phase:"final"});
+ }
+ if(a==="prev"){
+  if(st.phase==="vote") return st.revealed?u({revealed:false}):st.cur>0?u({cur:st.cur-1,revealed:true}):null;
+  if(st.phase==="reality") return st.rrev?u({rrev:false}):st.rcur>0?u({rcur:st.rcur-1,rrev:true}):(order().length?u({phase:"vote",cur:order().length-1,revealed:true}):null);
+  if(st.phase==="final") return u({phase:"reality",rcur:REAL.length-1,rrev:true});
+ }
+ if(a==="reset"){
+  if(Date.now()-resetArm>3000){resetArm=Date.now();el.textContent="Click again to wipe everything";return}
+  busy.clear(); return set(R(),{state:{phase:"lobby"}});
+ }
+}
+if(HOST) addEventListener("keydown",e=>{
+ if(e.target.tagName==="INPUT")return;
+ const st=S.state||{phase:"lobby"};
+ if(e.key===" "||e.key==="ArrowRight"){e.preventDefault();
+  if(st.phase==="lobby")act("start");else if(st.phase==="create")act("vote");
+  else if(st.phase==="vote")act(st.revealed?"next":"reveal");else if(st.phase==="reality")act(st.rrev?"next":"reveal");}
+ if(e.key==="ArrowLeft")act("prev");
+});
+
+setInterval(()=>{
+ const st=S.state||{};
+ $$("[data-end]").forEach(el=>{const left=(st.endsAt||0)-now();el.textContent=fmt(left);el.classList.toggle("low",left<60000)});
+ if(!HOST&&st.phase==="create"&&st.endsAt&&st.endsAt-now()<1500&&!autoSent&&dirty&&cv){autoSent=true;submit()}
+},250);
+onValue(R(),s=>{
+ S=s.val()||{};
+ if(S.state?.phase!=="create") autoSent=false;
+ if(!S.state&&HOST) set(R("state"),{phase:"lobby"});
+ try{HOST?renderHost():renderPhone()}catch(e){console.error("[w404]",e)}
+},e=>{ $("#app").innerHTML=`<div class="ph"><div class="wait"><h2>Connection blocked</h2><p class="mute">${esc(e.message)}</p></div></div>`});
+if(HOST) getModel();
+</script>
+</body>
+</html>
